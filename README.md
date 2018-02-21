@@ -30,8 +30,6 @@ Yocto. The following repositories are required for the build:
 
 # Adding the meta-mbed-edge layer to your build
 
---- replace with specific instructions for the meta-mbed-edge layer ---
-
 In order to use this layer, you need to make the build system aware of
 it.
 
