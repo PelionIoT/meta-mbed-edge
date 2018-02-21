@@ -1,0 +1,6 @@
+/var/log/pt-example.log {
+    size 50M
+    copytruncate
+    rotate 4
+    nodateext
+}
