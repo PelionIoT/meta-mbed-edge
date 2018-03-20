@@ -27,7 +27,7 @@ start() {
     wget -qO- 127.0.0.1:$CORE_HTTP_PORT/status &> /dev/null
     if [ $? -eq 0 ]; then
       #edge-core will be launched into a new shell, where it's output is directed to a log file
-      start-stop-daemon --start --quiet --make-pidfile --pidfile $PIDFILE --background --exec /bin/sh -- -c "$DAEMON $DAEMON_OPTS > $LOGFILE 2>&1"
+      start-stop-daemon --start --quiet --make-pidfile --pidfile $PIDFILE --background --exec /bin/sh -- -c "$DAEMON $DAEMON_OPTS >> $LOGFILE 2>&1"
       echo " - done"
       return 0
     fi
