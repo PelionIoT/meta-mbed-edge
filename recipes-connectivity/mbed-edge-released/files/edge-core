@@ -1,0 +1,6 @@
+/var/log/edge-core.log {
+    size 50M
+    copytruncate
+    rotate 4
+    nodateext
+}

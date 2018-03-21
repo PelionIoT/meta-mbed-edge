@@ -14,7 +14,9 @@ SRC_URI = "git://git@github.com/ARMmbed/mbed-edge-sources-internal.git;protocol=
            file://mbed_edge_config_developer.h \
            file://mbed_edge_config_update.h \
            file://mbed_edge_config_update_developer.h \
-           file://yocto-cross-compile-toolchain.cmake"
+           file://yocto-cross-compile-toolchain.cmake \
+           file://edge-core \
+           file://pt-example"
 
 SRCREV = "596c77c0211bfc3e7c846c2fca1d6d3b0b059585"
 
@@ -74,6 +76,10 @@ do_install() {
     install -d "${D}${sysconfdir}/init.d"
     install "${WORKDIR}/mbed-edge-core.sh" "${D}${sysconfdir}/init.d"
     install "${WORKDIR}/mbed-edge-pt-example.sh" "${D}${sysconfdir}/init.d"
+
+    install -d "${D}${sysconfdir}/logrotate.d"
+    install -m 644 "${WORKDIR}/edge-core" "${D}${sysconfdir}/logrotate.d"
+    install -m 644 "${WORKDIR}/pt-example" "${D}${sysconfdir}/logrotate.d"
 
     install -m 755 "${SCRIPT_DIR}/arm_update_cmdline.sh"                  "${D}/opt/arm"
     install -m 755 "${SCRIPT_DIR}/yocto_rpi/arm_update_activate.sh"       "${D}/opt/arm"
