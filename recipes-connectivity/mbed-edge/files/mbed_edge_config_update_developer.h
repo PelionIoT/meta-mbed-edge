@@ -132,9 +132,10 @@
 #define MBED_EDGE_BUILD_MBED_EDGE_INTERNAL_VERSION_PATCH 0
 
 // direct definitions (defines.json)
-#define MBED_TRACE_MAX_LEVEL TRACE_LEVEL_DEBUG
+#define MBED_TRACE_MAX_LEVEL TRACE_LEVEL_INFO
 #define MBED_CLOUD_CLIENT_USER_CONFIG_FILE "mbed_cloud_client_user_config.h"
-#define MBED_CLIENT_USER_CONFIG_FILE "mbed_cloud_client_user_config.h"
+#define MBED_CLIENT_USER_CONFIG_FILE "mbed_client_user_config.h"
+#define PAL_USER_DEFINED_CONFIGURATION "config/sotp_fs_rpi3_yocto.h"
 #define EDGE_PRIMARY_NETWORK_INTERFACE_ID "eth0"
 #define MBED_CONF_NS_HAL_PAL_EVENT_LOOP_THREAD_STACK_SIZE 102400
 #define MBED_CONF_MBED_CLIENT_DNS_THREAD_STACK_SIZE 131072
