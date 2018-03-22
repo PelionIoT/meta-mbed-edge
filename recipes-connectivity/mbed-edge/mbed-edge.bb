@@ -1,4 +1,4 @@
-DESCRIPTION="mbed-edge-released"
+DESCRIPTION="mbed-edge"
 
 LICENSE="Apache-2.0"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
@@ -7,7 +7,7 @@ SCRIPT_DIR = "${WORKDIR}/git/mbed-edge-module-sources/update-client-hub/modules/
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRC_URI = "git://git@github.com/ARMmbed/mbed-edge-sources-internal.git;protocol=ssh; \
+SRC_URI = "git://git@github.com/ARMmbed/mbed-edge.git;protocol=ssh; \
            file://mbed-edge-core.sh \
            file://mbed-edge-pt-example.sh \
            file://mbed_cloud_client_user_config.h \
@@ -18,7 +18,7 @@ SRC_URI = "git://git@github.com/ARMmbed/mbed-edge-sources-internal.git;protocol=
            file://edge-core \
            file://pt-example"
 
-SRCREV = "596c77c0211bfc3e7c846c2fca1d6d3b0b059585"
+SRCREV = "R0.4.3"
 
 DEPENDS = " libevent jansson"
 RDEPENDS_${PN} = " procps start-stop-daemon "

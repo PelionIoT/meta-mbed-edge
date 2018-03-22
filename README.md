@@ -9,7 +9,7 @@ on Raspberry Pi 3 there is `meta-mbed-raspberrypi` layer available.
 
 To add the Mbed Edge to your build, insert following line to your local.conf:
 
-`CORE_IMAGE_EXTRA_INSTALL += " mbed-edge-released "`
+`CORE_IMAGE_EXTRA_INSTALL += " mbed-edge "`
 
 To set the path to developer certificate file, please set following variable
 in your `local.conf`:
