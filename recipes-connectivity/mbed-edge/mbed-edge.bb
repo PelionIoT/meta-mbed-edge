@@ -18,7 +18,7 @@ SRC_URI = "git://git@github.com/ARMmbed/mbed-edge.git;protocol=ssh; \
            file://edge-core \
            file://pt-example"
 
-SRCREV = "R0.4.4"
+SRCREV = "R0.4.5"
 
 DEPENDS = " libevent jansson"
 RDEPENDS_${PN} = " procps start-stop-daemon "
