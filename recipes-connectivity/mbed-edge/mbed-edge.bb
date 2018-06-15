@@ -2,7 +2,7 @@ DESCRIPTION="mbed-edge"
 
 LICENSE="Apache-2.0"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
-SCRIPT_DIR = "${WORKDIR}/git/mbed-edge-module-sources/update-client-hub/modules/pal-linux/scripts"
+SCRIPT_DIR = "${WORKDIR}/git/lib/mbed-cloud-client/update-client-hub/modules/pal-linux/scripts"
 
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
@@ -10,18 +10,12 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI = "git://git@github.com/ARMmbed/mbed-edge.git;protocol=ssh; \
            file://mbed-edge-core.sh \
            file://mbed-edge-pt-example.sh \
-           file://mbed_cloud_client_user_config.h \
-           file://mbed_edge_config_developer.h \
-           file://mbed_edge_config_update.h \
-           file://mbed_edge_config_update_developer.h \
-           file://yocto-cross-compile-toolchain.cmake \
            file://edge-core \
            file://pt-example"
 
-SRCREV = "R0.4.5"
+SRCREV = "0.5.0"
 
-DEPENDS = " libevent jansson"
-RDEPENDS_${PN} = " procps start-stop-daemon "
+RDEPENDS_${PN} = " procps start-stop-daemon bash"
 
 # Installed packages
 PACKAGES = "${PN} ${PN}-dbg"
@@ -33,45 +27,22 @@ FILES_${PN} += "/opt \
 FILES_${PN}-dbg += "/opt/arm/.debug \
                     /usr/src/debug/mbed-edge-internal"
 
-do_configure() {
-    cd "${WORKDIR}/git"
+S = "${WORKDIR}/git"
 
-    cp ${WORKDIR}/mbed_cloud_client_user_config.h ${WORKDIR}/git
+EXTRA_OECMAKE += "-DTARGET_DEVICE=yocto -DTARGET_TOOLCHAIN=yocto ${MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS}"
+inherit cmake
 
-    cp ${WORKDIR}/yocto-cross-compile-toolchain.cmake ${WORKDIR}/git/targets/mcc-linux-x86/CMake/toolchain.cmake
-
-    if [ -e "${MBED_CLOUD_IDENTITY_CERT_FILE}" ]; then
-        echo "Setting certificate file"
-        cp ${MBED_CLOUD_IDENTITY_CERT_FILE} "${WORKDIR}/git/edge-client/mbed_cloud_dev_credentials.c"
-        if [ -e "${MBED_UPDATE_RESOURCE_FILE}" ]; then
-            echo "Setting update resource file"
-            cp ${MBED_UPDATE_RESOURCE_FILE} "${WORKDIR}/git/edge-client/update_default_resources.c"
-            cp ${WORKDIR}/mbed_edge_config_update_developer.h ${WORKDIR}/git/build/mcc-linux-x86/mbed_edge_config.h
-        else
-            cp ${WORKDIR}/mbed_edge_config_developer.h ${WORKDIR}/git/build/mcc-linux-x86/mbed_edge_config.h
-        fi
-    else
-        if [ -e "${MBED_UPDATE_RESOURCE_FILE}" ]; then
-            echo "Setting update resource file"
-            cp ${MBED_UPDATE_RESOURCE_FILE} "${WORKDIR}/git/edge-client/update_default_resources.c"
-            cp ${WORKDIR}/mbed_edge_config_update.h ${WORKDIR}/git/build/mcc-linux-x86/mbed_edge_config.h
-        fi
-    fi
-
-    cd lib
+do_configure_prepend() {
+    cd ${S}
     git submodule init
     git submodule update
-}
-
-do_compile() {
-    cd "${WORKDIR}/git"
-    YOCTO_DIR=${TOPDIR} ./build_mbed_edge.sh
+    cd ${WORKDIR}/build
 }
 
 do_install() {
     install -d "${D}/opt/arm"
-    install "${WORKDIR}/git/build/mcc-linux-x86/existing/bin/edge-core" "${D}/opt/arm"
-    install "${WORKDIR}/git/build/mcc-linux-x86/existing/bin/pt-example" "${D}/opt/arm"
+    install "${WORKDIR}/build/bin/edge-core" "${D}/opt/arm"
+    install "${WORKDIR}/build/bin/pt-example" "${D}/opt/arm"
 
     install -d "${D}${sysconfdir}/init.d"
     install "${WORKDIR}/mbed-edge-core.sh" "${D}${sysconfdir}/init.d"
