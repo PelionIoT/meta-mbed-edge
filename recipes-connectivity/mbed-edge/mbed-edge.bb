@@ -25,7 +25,7 @@ FILES_${PN} += "/opt \
                 /opt/arm/pt-example"
 
 FILES_${PN}-dbg += "/opt/arm/.debug \
-                    /usr/src/debug/mbed-edge-internal"
+                    /usr/src/debug/mbed-edge"
 
 S = "${WORKDIR}/git"
 

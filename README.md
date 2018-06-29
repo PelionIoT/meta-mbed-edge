@@ -11,15 +11,12 @@ To add the Mbed Edge to your build, insert following line to your local.conf:
 
 `CORE_IMAGE_EXTRA_INSTALL += " mbed-edge "`
 
-To set the path to developer certificate file, please set following variable
-in your `local.conf`:
-
-`MBED_CLOUD_IDENTITY_CERT_FILE = "/path/to/your/mbed_cloud_dev_credentials.c"`
-
-To set the path to update resource file, please set following variable in
-your `local.conf`
-
-`MBED_UPDATE_RESOURCE_FILE = "/path/to/your/update_default_resources.c"`
+The Mbed Edge CMake configuration can be injected with`MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS`
+environment variable. The content of the variable is the CMake configuration line
+to inject. By default `-DTARGET_DEVICE=yocto -DTARGET_TOOLCHAIN=yocto` is
+set in the recipe.
+Please consult the [Mbed Edge](https://github.com/ARMmbed/mbed-edge) repository
+how to configure the Mbed Edge build.
 
 # Dependencies
 
