@@ -1,4 +1,3 @@
-CORE_PORT=22223
 CORE_HTTP_PORT=8080
 
 #Load optional configuration from /etc/default
@@ -8,7 +7,7 @@ NAME=edge-core
 PIDFILE=/var/run/$NAME.pid
 LOGFILE=/var/log/$NAME.log
 DAEMON=/opt/arm/edge-core
-DAEMON_OPTS="$CORE_PORT $CORE_HTTP_PORT"
+DAEMON_OPTS="$CORE_HTTP_PORT"
 
 start() {
   if [ "$ENABLE_COREFILES" == 1 ]; then

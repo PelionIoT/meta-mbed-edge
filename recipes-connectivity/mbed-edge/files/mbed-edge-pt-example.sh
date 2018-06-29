@@ -1,18 +1,19 @@
 #!/bin/sh
 
 PROTOCOL_TRANSLATOR_NAME=pt-example
-CORE_PORT=22223
 CORE_HOST="127.0.0.1"
 CORE_HTTP_PORT=8080
 
 #Load optional configuration from /etc/default
 test ! -r /etc/default/mbed-edge-client.sh || . /etc/default/mbed-edge-client.sh
 
+ENDPOINT_POSTFIX=$(cat /sys/class/net/eth0/address)
 NAME=pt-example
 PIDFILE=/var/run/$NAME.pid
 LOGFILE=/var/log/$NAME.log
 DAEMON=/opt/arm/pt-example
-DAEMON_OPTS="--host=$CORE_HOST --port=$CORE_PORT --protocol-translator-name=$PROTOCOL_TRANSLATOR_NAME"
+EDGE_SOCK=/tmp/edge.sock
+DAEMON_OPTS="--host=$CORE_HOST --edge-domain-socket=$EDGE_SOCK --port=$CORE_PORT --protocol-translator-name=$PROTOCOL_TRANSLATOR_NAME --endpoint-postfix=-$ENDPOINT_POSTFIX"
 
 start() {
   if [ "$ENABLE_COREFILES" == 1 ]; then
