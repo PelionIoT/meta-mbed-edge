@@ -1,7 +1,6 @@
 #!/bin/sh
 
 PROTOCOL_TRANSLATOR_NAME=pt-example
-CORE_HOST="127.0.0.1"
 CORE_HTTP_PORT=8080
 
 #Load optional configuration from /etc/default
@@ -13,7 +12,7 @@ PIDFILE=/var/run/$NAME.pid
 LOGFILE=/var/log/$NAME.log
 DAEMON=/opt/arm/pt-example
 EDGE_SOCK=/tmp/edge.sock
-DAEMON_OPTS="--host=$CORE_HOST --edge-domain-socket=$EDGE_SOCK --port=$CORE_PORT --protocol-translator-name=$PROTOCOL_TRANSLATOR_NAME --endpoint-postfix=-$ENDPOINT_POSTFIX"
+DAEMON_OPTS="--edge-domain-socket=$EDGE_SOCK --protocol-translator-name=$PROTOCOL_TRANSLATOR_NAME --endpoint-postfix=-$ENDPOINT_POSTFIX"
 
 start() {
   if [ "$ENABLE_COREFILES" == 1 ]; then
