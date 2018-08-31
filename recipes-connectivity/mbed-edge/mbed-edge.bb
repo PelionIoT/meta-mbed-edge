@@ -13,7 +13,7 @@ SRC_URI = "git://git@github.com/ARMmbed/mbed-edge.git;protocol=ssh; \
            file://edge-core \
            file://pt-example"
 
-SRCREV = "0.5.1"
+SRCREV = "0.5.2"
 
 RDEPENDS_${PN} = " procps start-stop-daemon bash"
 
