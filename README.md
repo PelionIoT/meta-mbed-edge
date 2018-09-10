@@ -9,7 +9,7 @@ on Raspberry Pi 3 there is `meta-mbed-raspberrypi` layer available.
 
 To add the Mbed Edge to your build, insert following line to your local.conf:
 
-`CORE_IMAGE_EXTRA_INSTALL += " mbed-edge "`
+`CORE_IMAGE_EXTRA_INSTALL += " mbed-edge mbed-edge-examples "`
 
 The Mbed Edge CMake configuration can be injected with`MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS`
 environment variable. The content of the variable is the CMake configuration line
@@ -20,7 +20,7 @@ how to configure the Mbed Edge build.
 
 # Dependencies
 
-The Mbed Edge is currently tested on top of the `morty`-version of the
+The Mbed Edge is currently tested on top of the `sumo`-version of the
 Yocto. The following repositories are required for the build:
 
 [poky](https://git.yoctoproject.org/cgit/cgit.cgi/poky/)
@@ -45,7 +45,7 @@ other layers needed. e.g.:
   BBLAYERS ?= " \
     /path/to/yocto/meta \
     /path/to/yocto/meta-poky \
-    /path/to/yocto/meta-openembedded \
+    /path/to/yocto/meta-openembedded/meta-oe \
     /path/to/yocto/meta-raspberrypi \
     /path/to/yocto/meta-mbed-raspberrypi \
     /path/to/yocto/meta-mbed-edge \
