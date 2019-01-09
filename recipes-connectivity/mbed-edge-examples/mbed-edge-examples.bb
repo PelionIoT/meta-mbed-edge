@@ -8,24 +8,27 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI = "git://git@github.com/ARMmbed/mbed-edge-examples.git;protocol=ssh; \
            file://mbed-edge-pt-example.sh \
-           file://pt-example"
-SRCREV = "0.6.0"
+           file://pt-example \
+           file://mbed-edge-blept-example.sh \
+           file://blept-example"
+SRCREV = "0.7.1"
 
 # Installed packages
 PACKAGES = "${PN} ${PN}-dbg"
 FILES_${PN} += "/opt \
                 /opt/arm \
-                /opt/arm/pt-example"
+                /opt/arm/pt-example \
+                /opt/arm/blept-example"
 
 FILES_${PN}-dbg += "/opt/arm/.debug \
                     /usr/src/debug/mbed-edge-examples"
 
 S = "${WORKDIR}/git"
 
-DEPENDS = " libcap mosquitto"
-RDEPENDS_${PN} = " procps start-stop-daemon bash"
+DEPENDS = " libcap mosquitto glib-2.0"
+RDEPENDS_${PN} = " procps start-stop-daemon bash bluez5 mbed-edge"
 
-EXTRA_OECMAKE += "-DTARGET_DEVICE=yocto -DTARGET_TOOLCHAIN=yocto ${MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS}"
+EXTRA_OECMAKE += " -DTARGET_TOOLCHAIN=yocto ${MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS} "
 inherit cmake
 
 do_configure_prepend() {
@@ -37,15 +40,18 @@ do_configure_prepend() {
 do_install() {
     install -d "${D}/opt/arm"
     install "${WORKDIR}/build/bin/pt-example" "${D}/opt/arm"
+    install "${WORKDIR}/build/bin/blept-example" "${D}/opt/arm"
     install "${WORKDIR}/build/bin/mqttpt-example" "${D}/opt/arm"
     install "${WORKDIR}/git/mqttpt-example/mqttgw_sim/mqtt_ep.sh" "${D}/opt/arm"
     install "${WORKDIR}/git/mqttpt-example/mqttgw_sim/mqtt_gw.sh" "${D}/opt/arm"
 
     install -d "${D}${sysconfdir}/init.d"
     install "${WORKDIR}/mbed-edge-pt-example.sh" "${D}${sysconfdir}/init.d"
+    install "${WORKDIR}/mbed-edge-blept-example.sh" "${D}${sysconfdir}/init.d"
 
     install -d "${D}${sysconfdir}/logrotate.d"
     install -m 644 "${WORKDIR}/pt-example" "${D}${sysconfdir}/logrotate.d"
+    install -m 644 "${WORKDIR}/blept-example" "${D}${sysconfdir}/logrotate.d"
 
     install -d ${D}${sysconfdir}/rc0.d
     install -d ${D}${sysconfdir}/rc1.d

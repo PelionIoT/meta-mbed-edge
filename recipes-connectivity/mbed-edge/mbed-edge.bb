@@ -9,9 +9,12 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI = "git://git@github.com/ARMmbed/mbed-edge.git;protocol=ssh; \
            file://mbed-edge-core.sh \
-           file://edge-core"
+           file://edge-core \
+           file://toolchain.cmake \
+           file://target.cmake \
+           file://sotp_fs_rpi3_yocto.h "
 
-SRCREV = "0.6.0"
+SRCREV = "0.7.1"
 
 RDEPENDS_${PN} = " procps start-stop-daemon bash tar bzip2"
 
@@ -26,7 +29,7 @@ FILES_${PN}-dbg += "/opt/arm/.debug \
 
 S = "${WORKDIR}/git"
 
-EXTRA_OECMAKE += "-DTARGET_DEVICE=yocto -DTARGET_TOOLCHAIN=yocto ${MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS}"
+EXTRA_OECMAKE += "-DTARGET_CONFIG_ROOT=${WORKDIR} ${MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS}"
 inherit cmake
 
 do_configure_prepend() {

@@ -1,4 +1,6 @@
 /var/log/edge-core.log {
+    missingok
+    compress
     size 50M
     copytruncate
     rotate 4

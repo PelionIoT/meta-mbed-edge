@@ -11,12 +11,21 @@ To add the Mbed Edge to your build, insert following line to your local.conf:
 
 `CORE_IMAGE_EXTRA_INSTALL += " mbed-edge mbed-edge-examples "`
 
-The Mbed Edge CMake configuration can be injected with`MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS`
+The Mbed Edge CMake configuration can be injected with `MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS`
 environment variable. The content of the variable is the CMake configuration line
-to inject. By default `-DTARGET_DEVICE=yocto -DTARGET_TOOLCHAIN=yocto` is
-set in the recipe.
+to inject.
+
 Please consult the [Mbed Edge](https://github.com/ARMmbed/mbed-edge) repository
-how to configure the Mbed Edge build.
+how to configure the Mbed Edge build and check the `recipes-connectivity/mbed-edge/files`-folder
+for the configuration files.
+
+If the protocol translator examples are installed image, please note that the bluetooth
+needs to be enabled and the firmware for the bluetooth chip needs to be installed. This
+can be done by adding following lines to the local.conf:
+
+DISTRO_FEATURES_append += " bluetooth "
+
+CORE_IMAGE_EXTRA_INSTALL += " linux-firmware-bcm43430 linux-firmware-bcm43430a1-hcd "
 
 # Dependencies
 

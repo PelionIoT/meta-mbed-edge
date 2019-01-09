@@ -1,4 +1,4 @@
-/var/log/pt-example.log {
+/var/log/blept-example.log {
     missingok
     compress
     size 50M
