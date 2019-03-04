@@ -9,7 +9,7 @@ on Raspberry Pi 3 there is `meta-mbed-raspberrypi` layer available.
 
 To add the Mbed Edge to your build, insert following line to your local.conf:
 
-`CORE_IMAGE_EXTRA_INSTALL += " mbed-edge mbed-edge-examples "`
+`CORE_IMAGE_EXTRA_INSTALL += " virtual/mbed-edge mbed-edge-examples "`
 
 The Mbed Edge CMake configuration can be injected with `MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS`
 environment variable. The content of the variable is the CMake configuration line
