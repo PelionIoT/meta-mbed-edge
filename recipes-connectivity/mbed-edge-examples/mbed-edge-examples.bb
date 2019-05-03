@@ -9,8 +9,14 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI = "git://git@github.com/ARMmbed/mbed-edge-examples.git;protocol=ssh; \
            file://pt-example \
            file://blept-example \
+           file://pt-example.service \
+           file://pt-example-cfg.service \
+           file://pt-example-cfg.sh \
+           file://blept-example.service \
+           file://blept-example-cfg.service \
+           file://blept-example-cfg.sh \
            file://blept-devices.json"
-SRCREV = "0.8.0"
+SRCREV = "0.9.0"
 
 # Installed packages
 PACKAGES = "${PN} ${PN}-dbg"
@@ -29,7 +35,7 @@ DEPENDS = " libcap mosquitto glib-2.0"
 RDEPENDS_${PN} = " procps start-stop-daemon bash bluez5 virtual/mbed-edge"
 
 EXTRA_OECMAKE += " -DTARGET_TOOLCHAIN=yocto ${MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS} "
-inherit cmake
+inherit cmake systemd
 
 do_configure_prepend() {
     cd ${S}
@@ -49,4 +55,17 @@ do_install() {
     install -d "${D}${sysconfdir}/logrotate.d"
     install -m 644 "${WORKDIR}/pt-example" "${D}${sysconfdir}/logrotate.d"
     install -m 644 "${WORKDIR}/blept-example" "${D}${sysconfdir}/logrotate.d"
+
+    install -d ${D}${systemd_unitdir}/system/
+    install -m 0644 ${WORKDIR}/pt-example.service ${D}${systemd_unitdir}/system/
+    install -m 0644 ${WORKDIR}/blept-example.service ${D}${systemd_unitdir}/system/
+
+    install "${WORKDIR}/pt-example-cfg.sh" "${D}/opt/arm"
+    install "${WORKDIR}/blept-example-cfg.sh" "${D}/opt/arm"
+
+    install -d ${D}${systemd_unitdir}/system/
+    install -m 0644 ${WORKDIR}/pt-example-cfg.service ${D}${systemd_unitdir}/system/
+    install -m 0644 ${WORKDIR}/blept-example-cfg.service ${D}${systemd_unitdir}/system/
 }
+
+SYSTEMD_SERVICE_${PN} = "pt-example.service pt-example-cfg.service blept-example.service blept-example-cfg.service"

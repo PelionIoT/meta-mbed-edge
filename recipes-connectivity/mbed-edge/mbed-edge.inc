@@ -9,10 +9,12 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI = "git://git@github.com/ARMmbed/mbed-edge.git;protocol=ssh; \
            file://edge-core \
-           file://toolchain.cmake "
+           file://toolchain.cmake \
+           file://edge-core.service "
 
-SRCREV = "0.8.0"
+SRCREV = "0.9.0"
 
+DEPENDS = " libcap mosquitto"
 RDEPENDS_${PN} = " procps start-stop-daemon bash tar bzip2"
 
 # Installed packages
@@ -27,7 +29,7 @@ FILES_${PN}-dbg += "/opt/arm/.debug \
 S = "${WORKDIR}/git"
 
 EXTRA_OECMAKE += "-DTARGET_CONFIG_ROOT=${WORKDIR} ${MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS}"
-inherit cmake
+inherit cmake systemd
 
 do_configure_prepend() {
     cd ${S}
@@ -42,5 +44,9 @@ do_install() {
 
     install -d "${D}${sysconfdir}/logrotate.d"
     install -m 644 "${WORKDIR}/edge-core" "${D}${sysconfdir}/logrotate.d"
+
+    install -d ${D}${systemd_unitdir}/system/
+    install -m 0644 ${WORKDIR}/edge-core.service ${D}${systemd_unitdir}/system/
 }
 
+SYSTEMD_SERVICE_${PN} = "edge-core.service"
