@@ -16,15 +16,14 @@ SRC_URI = "git://git@github.com/ARMmbed/mbed-edge-examples.git;protocol=ssh; \
            file://blept-example-cfg.service \
            file://blept-example-cfg.sh \
            file://blept-devices.json"
-SRCREV = "0.9.0"
+SRCREV = "0.10.0"
 
 # Installed packages
 PACKAGES = "${PN} ${PN}-dbg"
 FILES_${PN} += "/opt \
                 /opt/arm \
                 /opt/arm/pt-example \
-                /opt/arm/blept-example \
-                /opt/arm/blept-devices.json"
+                /opt/arm/blept-example"
 
 FILES_${PN}-dbg += "/opt/arm/.debug \
                     /usr/src/debug/mbed-edge-examples"
@@ -32,7 +31,7 @@ FILES_${PN}-dbg += "/opt/arm/.debug \
 S = "${WORKDIR}/git"
 
 DEPENDS = " libcap mosquitto glib-2.0"
-RDEPENDS_${PN} = " procps start-stop-daemon bash bluez5 virtual/mbed-edge"
+RDEPENDS_${PN} = " procps start-stop-daemon bash bluez5"
 
 EXTRA_OECMAKE += " -DTARGET_TOOLCHAIN=yocto ${MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS} "
 inherit cmake systemd
@@ -46,11 +45,11 @@ do_configure_prepend() {
 do_install() {
     install -d "${D}/opt/arm"
     install "${WORKDIR}/build/bin/pt-example" "${D}/opt/arm"
-    install "${WORKDIR}/build/bin/blept-example" "${D}/opt/arm"
-    install "${WORKDIR}/blept-devices.json" "${D}/opt/arm"
     install "${WORKDIR}/build/bin/mqttpt-example" "${D}/opt/arm"
     install "${WORKDIR}/git/mqttpt-example/mqttgw_sim/mqtt_ep.sh" "${D}/opt/arm"
     install "${WORKDIR}/git/mqttpt-example/mqttgw_sim/mqtt_gw.sh" "${D}/opt/arm"
+    install "${WORKDIR}/build/bin/blept-example" "${D}/opt/arm"
+    install "${WORKDIR}/blept-devices.json" "${D}/opt/arm"
 
     install -d "${D}${sysconfdir}/logrotate.d"
     install -m 644 "${WORKDIR}/pt-example" "${D}${sysconfdir}/logrotate.d"
@@ -69,3 +68,4 @@ do_install() {
 }
 
 SYSTEMD_SERVICE_${PN} = "pt-example.service pt-example-cfg.service blept-example.service blept-example-cfg.service"
+

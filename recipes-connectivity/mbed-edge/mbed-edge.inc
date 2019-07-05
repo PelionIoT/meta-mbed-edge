@@ -1,6 +1,12 @@
-DESCRIPTION="mbed-edge"
+# For recipes including and extending this remember to add
+# * add extra files to SRC_URI.
+# * install update scripts.
+# * set compatible machine.
+# For example see the `mbed-edge-mbed-rpi-3.bb` recipe.
 
-LICENSE="Apache-2.0"
+DESCRIPTION = "mbed-edge"
+
+LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 SCRIPT_DIR = "${WORKDIR}/git/lib/mbed-cloud-client/update-client-hub/modules/pal-linux/scripts"
 
@@ -8,11 +14,12 @@ SCRIPT_DIR = "${WORKDIR}/git/lib/mbed-cloud-client/update-client-hub/modules/pal
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI = "git://git@github.com/ARMmbed/mbed-edge.git;protocol=ssh; \
-           file://edge-core \
-           file://toolchain.cmake \
-           file://edge-core.service "
+    file://edge-core \
+    file://toolchain.cmake \
+    file://edge-core.service \
+    "
 
-SRCREV = "0.9.0"
+SRCREV = "0.10.0"
 
 DEPENDS = " libcap mosquitto"
 RDEPENDS_${PN} = " procps start-stop-daemon bash tar bzip2"
@@ -49,4 +56,5 @@ do_install() {
     install -m 0644 ${WORKDIR}/edge-core.service ${D}${systemd_unitdir}/system/
 }
 
-SYSTEMD_SERVICE_${PN} = "edge-core.service"
+SYSTEMD_SERVICE_${PN} += "edge-core.service"
+
