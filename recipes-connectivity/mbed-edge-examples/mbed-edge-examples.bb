@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa3
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRC_URI = "git://git@github.com/ARMmbed/mbed-edge-examples.git;protocol=ssh; \
+SRC_URI = "gitsm://git@github.com/ARMmbed/mbed-edge-examples.git;protocol=ssh; \
            file://pt-example \
            file://blept-example \
            file://pt-example.service \
@@ -35,12 +35,6 @@ RDEPENDS_${PN} = " procps start-stop-daemon bash bluez5"
 
 EXTRA_OECMAKE += " -DTARGET_TOOLCHAIN=yocto ${MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS} "
 inherit cmake systemd
-
-do_configure_prepend() {
-    cd ${S}
-    git submodule update --init --recursive
-    cd ${WORKDIR}/build
-}
 
 do_install() {
     install -d "${D}/opt/arm"
