@@ -19,7 +19,7 @@ SRC_URI = "git://git@github.com/ARMmbed/mbed-edge.git;protocol=ssh; \
     file://edge-core.service \
     "
 
-SRCREV = "0.10.0"
+SRCREV = "0.11.0"
 
 DEPENDS = " libcap mosquitto"
 RDEPENDS_${PN} = " procps start-stop-daemon bash tar bzip2"
@@ -40,8 +40,7 @@ inherit cmake systemd
 
 do_configure_prepend() {
     cd ${S}
-    git submodule init
-    git submodule update
+    git submodule update --init --recursive
     cd ${WORKDIR}/build
 }
 
