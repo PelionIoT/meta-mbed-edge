@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa3
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRC_URI = "gitsm://git@github.com/ARMmbed/mbed-edge-examples.git;protocol=ssh; \
+SRC_URI = "gitsm://git@github.com/ARMmbed/mbed-edge-examples.git;protocol=ssh;nobranch=1 \
            file://pt-example \
            file://blept-example \
            file://pt-example.service \
