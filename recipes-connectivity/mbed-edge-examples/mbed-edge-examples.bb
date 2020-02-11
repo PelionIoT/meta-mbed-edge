@@ -16,7 +16,7 @@ SRC_URI = "gitsm://git@github.com/ARMmbed/mbed-edge-examples.git;protocol=ssh; \
            file://blept-example-cfg.service \
            file://blept-example-cfg.sh \
            file://blept-devices.json"
-SRCREV = "0.11.0"
+SRCREV = "0.12.0"
 
 # Installed packages
 PACKAGES = "${PN} ${PN}-dbg"
