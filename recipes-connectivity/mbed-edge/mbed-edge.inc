@@ -19,7 +19,7 @@ SRC_URI = "git://git@github.com/ARMmbed/mbed-edge.git;protocol=ssh; \
     file://edge-core.service \
     "
 
-SRCREV = "0.12.0"
+SRCREV = "0.13.0"
 
 DEPENDS = " libcap mosquitto"
 RDEPENDS_${PN} = " procps start-stop-daemon bash tar bzip2"
