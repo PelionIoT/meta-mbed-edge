@@ -23,7 +23,8 @@ SRC_URI = "git://git@github.com/ARMmbed/mbed-edge.git;protocol=ssh; \
            file://edge-core.logrotate \
            file://toolchain.cmake \
            file://0001-disable-Doxygen.patch \
-           file://0002-fix-libevent-build-with-CMake-in-Yocto.patch"
+           file://0002-fix-libevent-build-with-CMake-in-Yocto.patch \
+           file://0003-fix_libwebsockets_nondebug.manual_patch"
 SRC_URI += "\
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://mbed_cloud_dev_credentials.c','',d)} \
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_FIRMWARE_UPDATE','ON','file://update_default_resources.c','',d)} \
@@ -78,6 +79,9 @@ do_configure_prepend() {
     #dwqdwqd
     #mkdir -p ${WORKDIR}/build
     #cd ${WORKDIR}/build
+
+    # Temp fix for libwebsockets non-debug build
+    patch -p1 < ${WORKDIR}/0003-fix_libwebsockets_nondebug.manual_patch
 }
 
 do_install() {
