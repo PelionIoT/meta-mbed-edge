@@ -1,0 +1,18 @@
+
+### Emacs ###
+# -*- mode: gitignore; -*-
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+### Emacs + gtags ###
+GPATH
+GRTAGS
+GSYMS
+GTAGS
+
