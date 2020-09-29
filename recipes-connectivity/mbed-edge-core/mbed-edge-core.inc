@@ -12,12 +12,11 @@ MBED_EDGE_CORE_CONFIG_BYOC_MODE ?= "OFF"
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRCREV = "${@ d.getVar('MBED_EDGE_TAG', True) if d.getVar('MBED_EDGE_TAG', False) else '${AUTOREV}' }"
-EDGE_BRANCH = "${@ 'branch=' + d.getVar('MBED_EDGE_BRANCH', True) + ';' if d.getVar('MBED_EDGE_BRANCH', False) else 'branch=master' }"
+SRCREV = "1d681cd114d91af25947d2505fa7350d35e87565"
 
 RM_WORK_EXCLUDE += "${PN}"
 
-SRC_URI = "git://git@github.com/ARMmbed/mbed-edge.git;protocol=ssh; \
+SRC_URI = "git://github.com/ARMmbed/mbed-edge.git \
            file://edge-core.init \
            file://edge-core.service \
            file://edge-core.logrotate \

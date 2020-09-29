@@ -6,10 +6,9 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa3
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRCREV = "${@ d.getVar('MBED_EXAMPLES_TAG', True) if d.getVar('MBED_EXAMPLES_TAG', False) else '0.12.0' }"
-EXAMPLES_BRANCH = "${@ 'branch=' + d.getVar('MBED_EXAMPLES_BRANCH', True) + ';' if d.getVar('MBED_EXAMPLES_BRANCH', False) else 'branch=master' }"
+SRCREV = "cd505d1486a4a98800adb99c610706feabd60b11"
 
-SRC_URI = "git://git@github.com/ARMmbed/mbed-edge-examples.git;protocol=ssh;${EXAMPLES_BRANCH} \
+SRC_URI = "git://github.com/ARMmbed/mbed-edge-examples.git \
            file://pt-example \
            file://blept-example \
            file://blept-devices.json \
