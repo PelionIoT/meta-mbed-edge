@@ -7,7 +7,7 @@ Restart=always
 RestartSec=5s
 ExecStartPre=mkdir -p /userdata/mbed
 ExecStartPre=chown developer -R /userdata/mbed
-ExecStart=/usr/arm/edge-core  --http-port 9101
+ExecStart=/wigwag/mbed/edge-core  --http-port 9101
 
 [Install]
 RequiredBy=network.target

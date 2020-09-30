@@ -34,13 +34,13 @@ RDEPENDS_${PN} = " procps bash tar bzip2 rng-tools"
 
 # Installed packages
 PACKAGES = "${PN} ${PN}-dbg"
-FILES_${PN} += "/usr \
-                /usr/arm \
-                /usr/arm/edge-core \
+FILES_${PN} += "/wigwag \
+                /wigwag/mbed \
+                /wigwag/mbed/edge-core \
                 /mnt \
                 /mnt/config"
 
-FILES_${PN}-dbg += "/usr/arm/debug \
+FILES_${PN}-dbg += "/wigwag/mbed/debug \
                     /usr/src/debug/mbed-edge"
 
 S = "${WORKDIR}/git"
@@ -90,8 +90,8 @@ do_install() {
     install -d "${D}${systemd_system_unitdir}"
     install -m 755 "${WORKDIR}/edge-core.service" "${D}${systemd_system_unitdir}/edge-core.service"
 
-    install -d "${D}/usr/arm/"
-    install "${WORKDIR}/build/bin/edge-core" "${D}/usr/arm/"
+    install -d "${D}/wigwag/mbed"
+    install "${WORKDIR}/build/bin/edge-core" "${D}/wigwag/mbed"
 
     install -d "${D}${sysconfdir}/logrotate.d/"
     install -m 644 "${WORKDIR}/edge-core.logrotate" "${D}${sysconfdir}/logrotate.d"

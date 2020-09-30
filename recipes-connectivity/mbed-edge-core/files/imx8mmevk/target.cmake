@@ -5,8 +5,8 @@ SET (PAL_TARGET_DEVICE "imx8")
 
 SET (PAL_USER_DEFINED_CONFIGURATION "\"${TARGET_CONFIG_ROOT}/sotp_fs_imx8mmevk_yocto.h\"")
 SET (BIND_TO_ALL_INTERFACES 0)
-SET (PAL_FS_MOUNT_POINT_PRIMARY "\"/mnt/config\"")
-SET (PAL_FS_MOUNT_POINT_SECONDARY "\"/mnt/config\"")
+SET (PAL_FS_MOUNT_POINT_PRIMARY "\"/userdata/mbed/mcc_config\"")
+SET (PAL_FS_MOUNT_POINT_SECONDARY "\"/userdata/mbed/mcc_config\"")
 SET (PAL_UPDATE_FIRMWARE_DIR "\"/mnt/cache/firmware\"")
 SET (ARM_UC_SOCKET_TIMEOUT_MS 300000)
 

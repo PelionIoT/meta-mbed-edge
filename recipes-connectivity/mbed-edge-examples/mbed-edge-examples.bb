@@ -20,13 +20,13 @@ SRC_URI = "git://github.com/ARMmbed/mbed-edge-examples.git \
 
 # Installed packages
 PACKAGES = "${PN} ${PN}-dbg"
-FILES_${PN} += "/usr \
-                /usr/arm \
-                /usr/arm/pt-example \
-                /usr/arm/blept-example \
-                /usr/arm/blept-devices.json"
+FILES_${PN} += "/wigwag \
+                /wigwag/mbed \
+                /wigwag/mbed/pt-example \
+                /wigwag/mbed/blept-example \
+                /wigwag/mbed/blept-devices.json"
 
-FILES_${PN}-dbg += "/usr/arm/.debug \
+FILES_${PN}-dbg += "/wigwag/mbed/.debug \
                     /usr/src/debug/mbed-edge-examples"
 
 S = "${WORKDIR}/git"
@@ -51,13 +51,13 @@ do_configure_prepend() {
 }
 
 do_install() {
-    install -d "${D}/usr/arm"
-    install "${WORKDIR}/build/bin/pt-example" "${D}/usr/arm"
-    install "${WORKDIR}/build/bin/blept-example" "${D}/usr/arm"
-    install "${WORKDIR}/blept-devices.json" "${D}/usr/arm"
-    install "${WORKDIR}/build/bin/mqttpt-example" "${D}/usr/arm"
-    install "${WORKDIR}/git/mqttpt-example/mqttgw_sim/mqtt_ep.sh" "${D}/usr/arm"
-    install "${WORKDIR}/git/mqttpt-example/mqttgw_sim/mqtt_gw.sh" "${D}/usr/arm"
+    install -d "${D}/wigwag/mbed"
+    install "${WORKDIR}/build/bin/pt-example" "${D}/wigwag/mbed"
+    install "${WORKDIR}/build/bin/blept-example" "${D}/wigwag/mbed"
+    install "${WORKDIR}/blept-devices.json" "${D}/wigwag/mbed"
+    install "${WORKDIR}/build/bin/mqttpt-example" "${D}/wigwag/mbed"
+    install "${WORKDIR}/git/mqttpt-example/mqttgw_sim/mqtt_ep.sh" "${D}/wigwag/mbed"
+    install "${WORKDIR}/git/mqttpt-example/mqttgw_sim/mqtt_gw.sh" "${D}/wigwag/mbed"
 
     install -d "${D}${sysconfdir}/logrotate.d"
     install -m 644 "${WORKDIR}/pt-example" "${D}${sysconfdir}/logrotate.d"
