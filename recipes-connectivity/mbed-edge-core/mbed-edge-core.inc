@@ -38,7 +38,9 @@ FILES_${PN} += "/wigwag \
                 /wigwag/mbed \
                 /wigwag/mbed/edge-core \
                 /mnt \
-                /mnt/config"
+                /mnt/config \
+                /mnt/cache \
+                /mnt/flags"
 
 FILES_${PN}-dbg += "/wigwag/mbed/debug \
                     /usr/src/debug/mbed-edge"
@@ -97,5 +99,8 @@ do_install() {
     install -m 644 "${WORKDIR}/edge-core.logrotate" "${D}${sysconfdir}/logrotate.d"
 
     install -d "${D}/mnt/config"
+    install -d "${D}/mnt/flags"
+    install -d "${D}/mnt/cache"
+
 }
 
