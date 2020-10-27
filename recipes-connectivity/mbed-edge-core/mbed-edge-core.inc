@@ -77,9 +77,6 @@ do_configure_prepend() {
     [ -f "${WORKDIR}/update_default_resources.c" ] && {
         mv "${WORKDIR}/update_default_resources.c" config/
     }
-    #dwqdwqd
-    #mkdir -p ${WORKDIR}/build
-    #cd ${WORKDIR}/build
 
     # Temp fix for libwebsockets non-debug build
     patch -p1 < ${WORKDIR}/0003-fix_libwebsockets_nondebug.manual_patch
