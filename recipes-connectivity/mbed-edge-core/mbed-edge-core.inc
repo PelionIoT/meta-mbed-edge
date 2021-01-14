@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa3
 
 MBED_EDGE_CORE_CONFIG_TRACE_LEVEL ?= "DEBUG"
 MBED_EDGE_CORE_CONFIG_FIRMWARE_UPDATE ?= "OFF"
+MBED_EDGE_CORE_CONFIG_FOTA_ENABLE ?= "OFF"
+MBED_EDGE_CORE_CONFIG_CURL_DYNAMIC_LINK ?= "OFF"
 MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE ?= "ON"
 MBED_EDGE_CORE_CONFIG_FACTORY_MODE ?= "OFF"
 MBED_EDGE_CORE_CONFIG_BYOC_MODE ?= "OFF"
@@ -12,7 +14,7 @@ MBED_EDGE_CORE_CONFIG_BYOC_MODE ?= "OFF"
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRCREV = "1d681cd114d91af25947d2505fa7350d35e87565"
+SRCREV = "e85f23be84f8f172c98fa8a2666d0d8667ef463f"
 
 RM_WORK_EXCLUDE += "${PN}"
 
@@ -23,13 +25,14 @@ SRC_URI = "git://github.com/ARMmbed/mbed-edge.git \
            file://toolchain.cmake \
            file://0001-disable-Doxygen.patch \
            file://0002-fix-libevent-build-with-CMake-in-Yocto.patch \
-           file://0003-fix_libwebsockets_nondebug.manual_patch"
+           file://0003-fix_libwebsockets_nondebug.manual_patch \
+           file://0004-Removed-the-redundant-cmake-command.manual_patch"
 SRC_URI += "\
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://mbed_cloud_dev_credentials.c','',d)} \
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_FIRMWARE_UPDATE','ON','file://update_default_resources.c','',d)} \
 "
 
-DEPENDS = " libcap mosquitto mercurial-native"
+DEPENDS = " libcap mosquitto mercurial-native curl"
 RDEPENDS_${PN} = " procps bash tar bzip2 rng-tools"
 
 # Installed packages
@@ -56,6 +59,8 @@ EXTRA_OECMAKE += " \
     -DTARGET_CONFIG_ROOT=${WORKDIR} \
     -DTRACE_LEVEL=${MBED_EDGE_CORE_CONFIG_TRACE_LEVEL} \
     -DFIRMWARE_UPDATE=${MBED_EDGE_CORE_CONFIG_FIRMWARE_UPDATE} \
+    -DMBED_CLOUD_CLIENT_CURL_DYNAMIC_LINK=${MBED_EDGE_CORE_CONFIG_CURL_DYNAMIC_LINK} \
+    -DFOTA_ENABLE=${MBED_EDGE_CORE_CONFIG_FOTA_ENABLE} \
     -DDEVELOPER_MODE=${MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE} \
     -DFACTORY_MODE=${MBED_EDGE_CORE_CONFIG_FACTORY_MODE} \
     -DBYOC_MODE=${MBED_EDGE_CORE_CONFIG_BYOC_MODE} \
@@ -80,6 +85,7 @@ do_configure_prepend() {
 
     # Temp fix for libwebsockets non-debug build
     patch -p1 < ${WORKDIR}/0003-fix_libwebsockets_nondebug.manual_patch
+    patch -p1 < ${WORKDIR}/0004-Removed-the-redundant-cmake-command.manual_patch
 }
 
 do_install() {

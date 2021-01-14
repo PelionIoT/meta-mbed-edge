@@ -1,0 +1,24 @@
+From dae10c64256f147cd5ea86013cd697a512f22e45 Mon Sep 17 00:00:00 2001
+From: Yash Goyal <ygoyal@wigwag.com>
+Date: Sun, 10 Jan 2021 16:38:00 -0800
+Subject: [PATCH] Removed the redundant cmake command
+
+---
+ lib/mbed-cloud-client/CMakeLists.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/lib/mbed-cloud-client/CMakeLists.txt b/lib/mbed-cloud-client/CMakeLists.txt
+index 0b02534..706d0bc 100644
+--- a/lib/mbed-cloud-client/CMakeLists.txt
++++ b/lib/mbed-cloud-client/CMakeLists.txt
+@@ -294,7 +294,6 @@ if (FOTA_ENABLE)
+        message("curl include at: ${CURL_INCLUDE_DIRS}")
+        message("curl link: ${CURL_LIBRARIES}")
+        include_directories(SYSTEM ${CURL_LIBRARIES})
+-       add_dependencies(fota ${CURL_LIBRARIES})
+        target_link_libraries(fota ${CURL_LIBRARIES})
+     else()
+        add_dependencies(fota libcurl)
+-- 
+2.7.4
+
