@@ -12,7 +12,7 @@ MBED_EDGE_CORE_CONFIG_BYOC_MODE ?= "OFF"
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRCREV = "1d681cd114d91af25947d2505fa7350d35e87565"
+SRCREV = "e85f23be84f8f172c98fa8a2666d0d8667ef463f"
 
 RM_WORK_EXCLUDE += "${PN}"
 
