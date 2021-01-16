@@ -1,6 +1,6 @@
 [Unit]
 Description=Edge Core
-After=systemd-networkd-wait-online.service maestro.service
+After=systemd-networkd-wait-online.service
 
 [Service]
 Restart=always
