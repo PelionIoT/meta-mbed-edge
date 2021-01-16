@@ -34,7 +34,7 @@ SRC_URI += "\
 "
 
 DEPENDS = " libcap mosquitto mercurial-native curl"
-RDEPENDS_${PN} = " procps bash tar bzip2 rng-tools"
+RDEPENDS_${PN} = " procps bash tar bzip2 rng-tools glibc-utils"
 
 # Installed packages
 PACKAGES = "${PN} ${PN}-dbg"
