@@ -30,7 +30,7 @@ SRC_URI = "git://github.com/ARMmbed/mbed-edge.git \
            file://0004-Removed-the-redundant-cmake-command.manual_patch"
 SRC_URI += "\
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://mbed_cloud_dev_credentials.c','',d)} \
-    ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_FIRMWARE_UPDATE','ON','file://update_default_resources.c','',d)} \
+    ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://update_default_resources.c','',d)} \
 "
 
 DEPENDS = " libcap mosquitto mercurial-native curl"
