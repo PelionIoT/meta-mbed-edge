@@ -4,10 +4,10 @@ LICENSE="Apache-2.0"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
 MBED_EDGE_CORE_CONFIG_TRACE_LEVEL ?= "DEBUG"
-MBED_EDGE_CORE_CONFIG_FIRMWARE_UPDATE ?= "OFF"
-MBED_EDGE_CORE_CONFIG_FOTA_ENABLE ?= "OFF"
-MBED_EDGE_CORE_CONFIG_FOTA_TRACE ?= "OFF"
-MBED_EDGE_CORE_CONFIG_CURL_DYNAMIC_LINK ?= "OFF"
+MBED_EDGE_CORE_CONFIG_FIRMWARE_UPDATE ?= "ON"
+MBED_EDGE_CORE_CONFIG_FOTA_ENABLE ?= "ON"
+MBED_EDGE_CORE_CONFIG_FOTA_TRACE ?= "ON"
+MBED_EDGE_CORE_CONFIG_CURL_DYNAMIC_LINK ?= "ON"
 MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE ?= "ON"
 MBED_EDGE_CORE_CONFIG_FACTORY_MODE ?= "OFF"
 MBED_EDGE_CORE_CONFIG_BYOC_MODE ?= "OFF"
@@ -27,7 +27,8 @@ SRC_URI = "git://github.com/ARMmbed/mbed-edge.git \
            file://0001-disable-Doxygen.patch \
            file://0002-fix-libevent-build-with-CMake-in-Yocto.patch \
            file://0003-fix_libwebsockets_nondebug.manual_patch \
-           file://0004-Removed-the-redundant-cmake-command.manual_patch"
+           file://0004-Removed-the-redundant-cmake-command.manual_patch \
+           file://0005-fota.manual_patch"
 SRC_URI += "\
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://mbed_cloud_dev_credentials.c','',d)} \
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://update_default_resources.c','',d)} \
@@ -43,6 +44,7 @@ FILES_${PN} += "/wigwag \
                 /wigwag/mbed/edge-core \
                 /mnt \
                 /mnt/config \
+                /userdata \
                 /mnt/cache \
                 /mnt/flags"
 
@@ -88,6 +90,7 @@ do_configure_prepend() {
     # Temp fix for libwebsockets non-debug build
     patch -p1 < ${WORKDIR}/0003-fix_libwebsockets_nondebug.manual_patch
     patch -p1 < ${WORKDIR}/0004-Removed-the-redundant-cmake-command.manual_patch
+    patch -p1 < ${WORKDIR}/0005-fota.manual_patch
 }
 
 do_install() {
@@ -106,6 +109,7 @@ do_install() {
     install -d "${D}/mnt/config"
     install -d "${D}/mnt/flags"
     install -d "${D}/mnt/cache"
+    install -d "${D}/userdata"
 
 }
 
