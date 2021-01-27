@@ -1,6 +1,15 @@
-require mbed-edge-core.inc
-
 COMPATIBLE_MACHINE = "raspberrypi3"
+
+MBED_EDGE_CORE_CONFIG_TRACE_LEVEL ?= "DEBUG"
+MBED_EDGE_CORE_CONFIG_FIRMWARE_UPDATE ?= "ON"
+MBED_EDGE_CORE_CONFIG_FOTA_ENABLE ?= "OFF"
+MBED_EDGE_CORE_CONFIG_FOTA_TRACE ?= "OFF"
+MBED_EDGE_CORE_CONFIG_CURL_DYNAMIC_LINK ?= "OFF"
+MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE ?= "ON"
+MBED_EDGE_CORE_CONFIG_FACTORY_MODE ?= "OFF"
+MBED_EDGE_CORE_CONFIG_BYOC_MODE ?= "OFF"
+
+require mbed-edge-core.inc
 
 PROVIDES += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 RPROVIDES_${PN} += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
