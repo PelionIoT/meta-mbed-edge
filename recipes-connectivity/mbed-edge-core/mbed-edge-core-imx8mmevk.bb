@@ -1,6 +1,15 @@
-require mbed-edge-core.inc
-
 COMPATIBLE_MACHINE = "imx8mmevk"
+
+MBED_EDGE_CORE_CONFIG_TRACE_LEVEL ?= "DEBUG"
+MBED_EDGE_CORE_CONFIG_FIRMWARE_UPDATE ?= "ON"
+MBED_EDGE_CORE_CONFIG_FOTA_ENABLE ?= "ON"
+MBED_EDGE_CORE_CONFIG_FOTA_TRACE ?= "ON"
+MBED_EDGE_CORE_CONFIG_CURL_DYNAMIC_LINK ?= "ON"
+MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE ?= "ON"
+MBED_EDGE_CORE_CONFIG_FACTORY_MODE ?= "OFF"
+MBED_EDGE_CORE_CONFIG_BYOC_MODE ?= "OFF"
+
+require mbed-edge-core.inc
 
 PROVIDES += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 RPROVIDES_${PN} += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
