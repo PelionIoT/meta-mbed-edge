@@ -1,0 +1,13 @@
+diff --git a/fota/fota_install_callback.c b/fota/fota_install_callback.c
+index 5f738d9..66002a3 100644
+--- a/fota/fota_install_callback.c
++++ b/fota/fota_install_callback.c
+@@ -38,7 +38,7 @@ int fota_app_on_install_candidate(const char *candidate_fs_name, const manifest_
+     int length = snprintf(command,
+                           ACTIVATE_SCRIPT_LENGTH,
+                           "%s %s %s",
+-                          "/opt/pelion/fota_update_activate.sh",  candidate_fs_name, MBED_CLOUD_CLIENT_FOTA_LINUX_HEADER_FILENAME);
++                          "/wigwag/mbed/deploy_ostree_delta_update.sh",  candidate_fs_name, MBED_CLOUD_CLIENT_FOTA_LINUX_HEADER_FILENAME);
+     FOTA_ASSERT(length < ACTIVATE_SCRIPT_LENGTH);
+ 
+     FOTA_TRACE_INFO( "shell command from fota install calback %s", command );
