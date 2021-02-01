@@ -17,6 +17,8 @@ RPROVIDES_${PN} += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 FILESEXTRAPATHS_prepend := "${THISDIR}/files/mbed-uz3eg:"
 SRC_URI += "file://target.cmake \
             file://sotp_fs_uz3eg_yocto.h \
+            file://deploy_ostree_delta_update.sh \
+            file://0006-fota-callback.patch \
             file://pal_plat_uz3eg.c"
 
 SCRIPT_DIR = "${WORKDIR}/git/lib/mbed-cloud-client/update-client-hub/modules/pal-linux/scripts"
@@ -30,4 +32,5 @@ do_install_append() {
     install -m 755 "${SCRIPT_DIR}/arm_update_cmdline.sh"                  "${D}/wigwag/mbed"
     install -m 755 "${SCRIPT_DIR}/yocto_generic/arm_update_activate.sh"       "${D}/wigwag/mbed"
     install -m 755 "${SCRIPT_DIR}/yocto_generic/arm_update_active_details.sh" "${D}/wigwag/mbed"
+    install -m 755 "${WORKDIR}/deploy_ostree_delta_update.sh" "${D}/wigwag/mbed"
 }
