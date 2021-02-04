@@ -1,9 +1,9 @@
 MESSAGE ("Building Yocto Linux target")
 SET (OS_BRAND Linux)
-SET (MBED_CLOUD_CLIENT_DEVICE "uz3eg")
-SET (PAL_TARGET_DEVICE "uz3eg")
+SET (MBED_CLOUD_CLIENT_DEVICE "uz")
+SET (PAL_TARGET_DEVICE "uz")
 
-SET (PAL_USER_DEFINED_CONFIGURATION "\"${TARGET_CONFIG_ROOT}/sotp_fs_uz3eg_yocto.h\"")
+SET (PAL_USER_DEFINED_CONFIGURATION "\"${TARGET_CONFIG_ROOT}/sotp_fs_uz_yocto.h\"")
 SET (BIND_TO_ALL_INTERFACES 0)
 SET (PAL_FS_MOUNT_POINT_PRIMARY "\"/userdata/mbed/mcc_config\"")
 SET (PAL_FS_MOUNT_POINT_SECONDARY "\"/userdata/mbed/mcc_config\"")

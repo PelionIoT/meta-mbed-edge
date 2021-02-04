@@ -1,4 +1,4 @@
-COMPATIBLE_MACHINE = "uz3eg-iocc"
+COMPATIBLE_MACHINE = "uz"
 
 MBED_EDGE_CORE_CONFIG_TRACE_LEVEL ?= "INFO"
 MBED_EDGE_CORE_CONFIG_FIRMWARE_UPDATE ?= "ON"
@@ -14,18 +14,18 @@ require mbed-edge-core.inc
 PROVIDES += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 RPROVIDES_${PN} += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files/mbed-uz3eg:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/files/mbed-uz:"
 SRC_URI += "file://target.cmake \
-            file://sotp_fs_uz3eg_yocto.h \
+            file://sotp_fs_uz_yocto.h \
             file://deploy_ostree_delta_update.sh \
             file://0006-fota-callback.patch \
-            file://pal_plat_uz3eg.c"
+            file://pal_plat_uz.c"
 
 SCRIPT_DIR = "${WORKDIR}/git/lib/mbed-cloud-client/update-client-hub/modules/pal-linux/scripts"
 
 do_configure_prepend() {
-    mkdir -p ${S}/lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_uz3eg
-    cp ${WORKDIR}/pal_plat_uz3eg.c ${S}/lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_uz3eg/
+    mkdir -p ${S}/lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_uz
+    cp ${WORKDIR}/pal_plat_uz.c ${S}/lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_uz/
 }
 
 do_install_append() {
