@@ -15,6 +15,7 @@ SRC_URI = "git://github.com/ARMmbed/mbed-edge.git \
            file://edge-core.service \
            file://edge-core.logrotate \
            file://toolchain.cmake \
+           file://mbed_cloud_client_user_config.h \
            file://0001-disable-Doxygen.patch \
            file://0002-fix-libevent-build-with-CMake-in-Yocto.patch \
            file://0003-fix_libwebsockets_nondebug.manual_patch \
@@ -51,6 +52,7 @@ EXTRA_OECMAKE += " \
     -DTARGET_TOOLCHAIN=yocto \
     -DMBED_CONF_MBED_TRACE_ENABLE=1 \
     -DTARGET_CONFIG_ROOT=${WORKDIR} \
+    -DCLOUD_CLIENT_CONFIG=${WORKDIR}/mbed_cloud_client_user_config.h \
     -DTRACE_LEVEL=${MBED_EDGE_CORE_CONFIG_TRACE_LEVEL} \
     -DFIRMWARE_UPDATE=${MBED_EDGE_CORE_CONFIG_FIRMWARE_UPDATE} \
     -DMBED_CLOUD_CLIENT_CURL_DYNAMIC_LINK=${MBED_EDGE_CORE_CONFIG_CURL_DYNAMIC_LINK} \
