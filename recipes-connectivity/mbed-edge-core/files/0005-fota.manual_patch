@@ -1,0 +1,23 @@
+diff --git a/lib/mbed-cloud-client/fota/fota_config.h b/lib/mbed-cloud-client/fota/fota_config.h
+index 3cd840a..8ae2673 100644
+--- a/lib/mbed-cloud-client/fota/fota_config.h
++++ b/lib/mbed-cloud-client/fota/fota_config.h
+@@ -55,15 +55,15 @@
+ #endif
+ 
+ #if !defined(MBED_CLOUD_CLIENT_FOTA_LINUX_HEADER_FILENAME)
+-#define MBED_CLOUD_CLIENT_FOTA_LINUX_HEADER_FILENAME "fota_fw_metadata"
++#define MBED_CLOUD_CLIENT_FOTA_LINUX_HEADER_FILENAME "/userdata/fota_fw_metadata"
+ #endif
+ 
+ #if !defined(MBED_CLOUD_CLIENT_FOTA_LINUX_UPDATE_STORAGE_FILENAME)
+-#define MBED_CLOUD_CLIENT_FOTA_LINUX_UPDATE_STORAGE_FILENAME "fota_candidate"
++#define MBED_CLOUD_CLIENT_FOTA_LINUX_UPDATE_STORAGE_FILENAME "/userdata/fota_candidate"
+ #endif
+ 
+ #if !defined(MBED_CLOUD_CLIENT_FOTA_LINUX_CANDIDATE_FILENAME)
+-#define MBED_CLOUD_CLIENT_FOTA_LINUX_CANDIDATE_FILENAME "fota_raw_candidate"
++#define MBED_CLOUD_CLIENT_FOTA_LINUX_CANDIDATE_FILENAME "/userdata/fota_raw_candidate"
+ #endif
+ 
+ #endif // defined(TARGET_LIKE_LINUX)
