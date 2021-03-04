@@ -16,6 +16,7 @@ SRC_URI = "git://github.com/ARMmbed/mbed-edge.git \
            file://edge-core.logrotate \
            file://toolchain.cmake \
            file://0001-disable-Doxygen.patch \
+           file://0001-fix-pal-platform-Yocto-target-dependencies.patch \
            file://0002-fix-libevent-build-with-CMake-in-Yocto.patch \
            file://0003-fix_libwebsockets_nondebug.manual_patch \
            file://0004-Removed-the-redundant-cmake-command.manual_patch \
@@ -25,7 +26,7 @@ SRC_URI += "\
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://update_default_resources.c','',d)} \
 "
 
-DEPENDS = " libcap mosquitto mercurial-native curl"
+DEPENDS = " libcap mosquitto mercurial-native curl python3-native python3-pip-native python3 python3-setuptools-native python3-setuptools-scm"
 RDEPENDS_${PN} = " procps bash tar bzip2 rng-tools glibc-utils"
 
 # Installed packages
@@ -44,7 +45,7 @@ FILES_${PN}-dbg += "/wigwag/mbed/debug \
 
 S = "${WORKDIR}/git"
 
-inherit cmake update-rc.d systemd
+inherit cmake update-rc.d systemd python3native cargo
 
 EXTRA_OECMAKE += " \
     -DCMAKE_BUILD_TYPE=Debug \
@@ -59,6 +60,7 @@ EXTRA_OECMAKE += " \
     -DDEVELOPER_MODE=${MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE} \
     -DFACTORY_MODE=${MBED_EDGE_CORE_CONFIG_FACTORY_MODE} \
     -DBYOC_MODE=${MBED_EDGE_CORE_CONFIG_BYOC_MODE} \
+    -DPARSEC_TPM_SE_SUPPORT=${MBED_EDGE_CORE_CONFIG_PARSEC_TPM_SE_SUPPORT} \
     ${MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS} \
     "
 
