@@ -1,0 +1,29 @@
+From 781a8766cb917c0c0aac1a5abe58c63fcd9e9ae3 Mon Sep 17 00:00:00 2001
+From: Yash Goyal <ygoyal@wigwag.com>
+Date: Wed, 3 Mar 2021 21:53:21 -0800
+Subject: [PATCH] Check for cargo before building parsec-se-driver
+
+---
+ lib/CMakeLists.txt | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index e38fb25..a0deb73 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -51,6 +51,12 @@ if (PARSEC_TPM_SE_SUPPORT OR (FOTA_ENABLE AND NOT MBED_CLOUD_CLIENT_CURL_DYNAMIC
+                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} )
+ 
+   if (PARSEC_TPM_SE_SUPPORT)
++
++    find_program(CARGO cargo)
++    if (NOT CARGO)
++      message(FATAL_ERROR "cargo not found!")
++    endif ()
++
+     add_subdirectory("pal-platform/Middleware/parsec_se_driver")
+     add_subdirectory("pal-platform/Middleware/trusted_storage")
+   else ()
+-- 
+2.17.1
+

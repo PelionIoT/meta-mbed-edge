@@ -16,6 +16,7 @@ SRC_URI = "git://github.com/ARMmbed/mbed-edge.git \
            file://edge-core.logrotate \
            file://toolchain.cmake \
            file://0001-disable-Doxygen.patch \
+           file://0001-Check-for-cargo-before-building-parsec-se-driver.patch \
            file://0001-fix-pal-platform-Yocto-target-dependencies.patch \
            file://0002-fix-libevent-build-with-CMake-in-Yocto.patch \
            file://0003-fix_libwebsockets_nondebug.manual_patch \
