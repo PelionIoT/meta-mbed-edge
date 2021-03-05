@@ -26,7 +26,7 @@ SRC_URI += "\
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://update_default_resources.c','',d)} \
 "
 
-DEPENDS = " libcap mosquitto mercurial-native curl python3-native python3-pip-native python3 python3-setuptools-native python3-setuptools-scm"
+DEPENDS = " libcap mosquitto mercurial-native curl python3-native python3-pip-native python3 python3-setuptools-native python3-setuptools-scm cargo-native"
 RDEPENDS_${PN} = " procps bash tar bzip2 rng-tools glibc-utils"
 
 # Installed packages
@@ -45,7 +45,7 @@ FILES_${PN}-dbg += "/wigwag/mbed/debug \
 
 S = "${WORKDIR}/git"
 
-inherit cmake update-rc.d systemd python3native cargo
+inherit cmake update-rc.d systemd python3native
 
 EXTRA_OECMAKE += " \
     -DCMAKE_BUILD_TYPE=Debug \
