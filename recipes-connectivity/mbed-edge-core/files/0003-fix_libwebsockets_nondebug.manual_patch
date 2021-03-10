@@ -2,18 +2,12 @@ diff --git a/lib/libwebsockets/libwebsockets/CMakeLists.txt b/lib/libwebsockets/
 
 --- a/lib/libwebsockets/libwebsockets/CMakeLists.txt
 +++ b/lib/libwebsockets/libwebsockets/CMakeLists.txt
-@@ -1043,13 +1043,13 @@
- 	    set (GCOV_FLAGS "-fprofile-arcs -ftest-coverage -O0")
-     endif()
- 
+@@ -1237,7 +1237,7 @@ if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR COMPILER_IS_CLANG)
      if (CMAKE_BUILD_TYPE MATCHES "DEBUG")
- 		set(CMAKE_C_FLAGS "-O0 ${CMAKE_C_FLAGS}")
+                set(CMAKE_C_FLAGS "-O0 ${CMAKE_C_FLAGS}")
      else()
--		set(CMAKE_C_FLAGS "-O3 ${CMAKE_C_FLAGS}")
-+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3")
+-               set(CMAKE_C_FLAGS "-O3 ${CMAKE_C_FLAGS}")
++               set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3")
      endif()
- 
-     if (UNIX AND NOT LWS_WITH_ESP32)
- 	    set(CMAKE_C_FLAGS "-Wall -Wsign-compare -Wignored-qualifiers -Wtype-limits -Wuninitialized -Werror ${VISIBILITY_FLAG} -Wundef ${GCOV_FLAGS} ${CMAKE_C_FLAGS}" )
-     else()
- 	    set(CMAKE_C_FLAGS "-Wall -Wsign-compare -Wignored-qualifiers -Wtype-limits -Wuninitialized -Werror ${VISIBILITY_FLAG} ${GCOV_FLAGS} ${CMAKE_C_FLAGS}" )
+
+        check_c_compiler_flag("-Wignored-qualifiers" LWS_GCC_HAS_IGNORED_QUALIFIERS)

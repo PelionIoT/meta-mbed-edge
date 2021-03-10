@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa3
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRCREV = "e85f23be84f8f172c98fa8a2666d0d8667ef463f"
+SRCREV = "0.16.0"
 
 RM_WORK_EXCLUDE += "${PN}"
 
@@ -16,18 +16,17 @@ SRC_URI = "git://github.com/ARMmbed/mbed-edge.git \
            file://edge-core.logrotate \
            file://toolchain.cmake \
            file://0001-disable-Doxygen.patch \
-           file://0001-Check-for-cargo-before-building-parsec-se-driver.patch \
-           file://0001-fix-pal-platform-Yocto-target-dependencies.patch \
+           file://0001-parsec-se-driver-should-be-compiled-separately-in-Yo.patch \
            file://0002-fix-libevent-build-with-CMake-in-Yocto.patch \
            file://0003-fix_libwebsockets_nondebug.manual_patch \
-           file://0004-Removed-the-redundant-cmake-command.manual_patch \
            file://0005-fota.manual_patch"
+
 SRC_URI += "\
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://mbed_cloud_dev_credentials.c','',d)} \
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://update_default_resources.c','',d)} \
 "
 
-DEPENDS = " libcap mosquitto mercurial-native curl python3-native python3-pip-native python3 python3-setuptools-native python3-setuptools-scm cargo-native"
+DEPENDS = " libcap mosquitto mercurial-native curl python3-native python3-pip-native python3 python3-setuptools-native python3-setuptools-scm parsec-se-driver"
 RDEPENDS_${PN} = " procps bash tar bzip2 rng-tools glibc-utils"
 
 # Installed packages
@@ -48,8 +47,10 @@ S = "${WORKDIR}/git"
 
 inherit cmake update-rc.d systemd python3native
 
+MBED_EDGE_CMAKE_BUILD_TYPE ?= "Debug"
+
 EXTRA_OECMAKE += " \
-    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_BUILD_TYPE=${MBED_EDGE_CMAKE_BUILD_TYPE} \
     -DTARGET_TOOLCHAIN=yocto \
     -DMBED_CONF_MBED_TRACE_ENABLE=1 \
     -DTARGET_CONFIG_ROOT=${WORKDIR} \
@@ -82,9 +83,20 @@ do_configure_prepend() {
     }
 
     # Temp fix for libwebsockets non-debug build
-    patch -p1 < ${WORKDIR}/0003-fix_libwebsockets_nondebug.manual_patch
-    patch -p1 < ${WORKDIR}/0004-Removed-the-redundant-cmake-command.manual_patch
     patch -p1 < ${WORKDIR}/0005-fota.manual_patch
+
+}
+
+do_compile_prepend() {
+
+    if [ ${MBED_EDGE_CMAKE_BUILD_TYPE} == "Debug" ]; then
+        mkdir -p ${S}/lib/pal-platform/Middleware/parsec_se_driver/parsec_se_driver/target/debug
+        cp ${PKG_CONFIG_SYSROOT_DIR}/usr/lib/libparsec_se_driver.a ${S}/lib/pal-platform/Middleware/parsec_se_driver/parsec_se_driver/target/debug/
+    else
+        mkdir -p ${S}/lib/pal-platform/Middleware/parsec_se_driver/parsec_se_driver/target/release
+        cp ${PKG_CONFIG_SYSROOT_DIR}/usr/lib/libparsec_se_driver.a ${S}/lib/pal-platform/Middleware/parsec_se_driver/parsec_se_driver/target/release/
+    fi
+
 }
 
 do_install() {
