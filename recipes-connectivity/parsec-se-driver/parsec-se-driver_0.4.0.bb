@@ -1,16 +1,19 @@
 inherit cargo
 
-SRC_URI = "git://github.com/parallaxsecond/parsec-se-driver.git;rev=010627948f30457597111499f454a3de69f3c2db;protocol=https \
-           git://github.com/ARMmbed/mbedtls.git;protocol=https;rev=ac15f842a5bb8d4cbceb7175c5d7ab50d96173c0;destsuffix=mbedtls"
-
-LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
-
 SUMMARY = "Parsec Secure Element Driver"
 HOMEPAGE = "https://github.com/parallaxsecond/parsec-se-driver"
 LICENSE = "Apache-2.0"
 
+SRC_URI = "git://github.com/parallaxsecond/parsec-se-driver.git;protocol=https \
+           git://github.com/ARMmbed/mbedtls.git;protocol=https;destsuffix=mbedtls;name=mbedtls"
+
+SRCREV_pn-${PN} = "${PV}"
+SRCREV_mbedtls = "mbedtls-2.22.0"
+
 S = "${WORKDIR}/git"
 S_MBEDTLS = "${WORKDIR}/mbedtls"
+
+LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
 BBCLASSEXTEND = "native"
 
