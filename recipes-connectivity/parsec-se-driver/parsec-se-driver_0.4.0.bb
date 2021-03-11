@@ -32,6 +32,6 @@ do_compile_prepend() {
 }
 
 do_install() {
-    install -d "${D}/usr/lib/"
-    install -m 755 "${B}/target/${TARGET_SYS}/release/libparsec_se_driver.a" "${D}/usr/lib/libparsec_se_driver.a"
+    install -d "${D}/${libdir}"
+    install -m 755 "${B}/target/${TARGET_SYS}/release/libparsec_se_driver.a" "${D}/${libdir}"
 }
