@@ -4,7 +4,7 @@ SUMMARY = "Parsec Secure Element Driver"
 HOMEPAGE = "https://github.com/parallaxsecond/parsec-se-driver"
 LICENSE = "Apache-2.0"
 
-SRC_URI = "git://github.com/parallaxsecond/parsec-se-driver.git;protocol=https \
+SRC_URI = "git://github.com/parallaxsecond/parsec-se-driver.git;protocol=https;branch=main \
            git://github.com/ARMmbed/mbedtls.git;protocol=https;destsuffix=mbedtls;name=mbedtls"
 
 SRCREV_pn-${PN} = "${PV}"
