@@ -87,6 +87,9 @@ do_configure_prepend() {
     # Temp fix for libwebsockets non-debug build
     patch -p1 < ${WORKDIR}/0005-fota.manual_patch
 
+    export HTTP_PROXY=${HTTP_PROXY}
+    export HTTPS_PROXY=${HTTPS_PROXY}
+
 }
 
 do_compile_prepend() {
