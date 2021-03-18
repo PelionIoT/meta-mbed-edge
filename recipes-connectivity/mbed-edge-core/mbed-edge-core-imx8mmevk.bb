@@ -20,6 +20,7 @@ SRC_URI += "file://target.cmake \
             file://sotp_fs_imx8mmevk_yocto.h \
             file://deploy_ostree_delta_update.sh \
             file://0006-fota-callback.patch \
+            file://0001-fix_psa_storage_location.patch \
             file://pal_plat_imx8.c"
 
 SCRIPT_DIR = "${WORKDIR}/git/lib/mbed-cloud-client/update-client-hub/modules/pal-linux/scripts"
