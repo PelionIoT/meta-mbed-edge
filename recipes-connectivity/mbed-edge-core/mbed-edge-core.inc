@@ -94,8 +94,8 @@ do_configure_prepend() {
 
 do_compile_prepend() {
 
-    if [ ${MBED_EDGE_CORE_CONFIG_PARSEC_TPM_SE_SUPPORT} == "ON" ]; then
-        if [ ${MBED_EDGE_CMAKE_BUILD_TYPE} == "Debug" ]; then
+    if [ "${MBED_EDGE_CORE_CONFIG_PARSEC_TPM_SE_SUPPORT}" = "ON" ]; then
+        if [ "${MBED_EDGE_CMAKE_BUILD_TYPE}" = "Debug" ]; then
             mkdir -p ${S}/lib/pal-platform/Middleware/parsec_se_driver/parsec_se_driver/target/debug
             cp ${PKG_CONFIG_SYSROOT_DIR}/usr/lib/libparsec_se_driver.a ${S}/lib/pal-platform/Middleware/parsec_se_driver/parsec_se_driver/target/debug/
         else
