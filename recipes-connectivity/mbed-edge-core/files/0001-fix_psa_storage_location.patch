@@ -1,5 +1,5 @@
 diff --git a/config/psa_storage_user_config.h b/config/psa_storage_user_config.h
-index 742f5d7..395c820 100644
+index 742f5d7..e5fc9b4 100644
 --- a/config/psa_storage_user_config.h
 +++ b/config/psa_storage_user_config.h
 @@ -32,6 +32,6 @@
@@ -7,6 +7,6 @@ index 742f5d7..395c820 100644
  #endif
  
 -#define PSA_STORAGE_FILE_C_STORAGE_PREFIX "psa/"
-+#define PSA_STORAGE_FILE_C_STORAGE_PREFIX "/userdata/mbed/psa/"
++#define PSA_STORAGE_FILE_C_STORAGE_PREFIX "/userdata/mbed/mcc_config"
  
  #endif /* PSA_STORAGE_USER_CONFIG_H */
