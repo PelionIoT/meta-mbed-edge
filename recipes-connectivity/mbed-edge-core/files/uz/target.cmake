@@ -10,7 +10,7 @@ SET (ARM_UC_SOCKET_TIMEOUT_MS 300000)
 
 # When PARSEC_TPM_SE_SUPPORT is enabled, most likely you are using PSA trusted
 # storage rather than default ESFS to save the provisioning data. In that case, these
-# macros are don't care. To control the psa storage file location, please modify the
+# macros are irrelevant. To control the psa storage file location, please modify the
 # config/psa_storage_user_config.h.
 SET (PAL_FS_MOUNT_POINT_PRIMARY "\"/userdata/mbed/mcc_config\"")
 SET (PAL_FS_MOUNT_POINT_SECONDARY "\"/userdata/mbed/mcc_config\"")
