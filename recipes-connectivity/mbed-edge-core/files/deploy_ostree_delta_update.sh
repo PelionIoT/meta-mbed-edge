@@ -50,9 +50,15 @@ to_sha=$(grep To-sha /tmp/$$/metadata | cut -d":" -f2)
 # Clear exit on error
 set +e
 
-# check that the ostree repo deployed on the device contains the base sha.
-ostree ls $from_sha > /dev/null 2>&1
-RESULT=$?
+if [ ${from_sha} = "delta_created_from_scratch" ]; then
+    # The from_sha specified indicated that this is a full update generated
+    # from scratch, so allow the update to proceed.
+    RESULT=0
+else
+    # check that the ostree repo deployed on the device contains the base sha.
+    ostree ls $from_sha > /dev/null 2>&1
+    RESULT=$?
+fi
 
 if [ $RESULT -eq 0 ]; then
 
