@@ -16,3 +16,6 @@ GRTAGS
 GSYMS
 GTAGS
 
+# Do not track the cert files by default to prevent chances of anyone slipping real certs here
+recipes-connectivity/mbed-edge-core/files/mbed_cloud_dev_credentials.c
+recipes-connectivity/mbed-edge-core/files/update_default_resources.c
