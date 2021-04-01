@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa3
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRCREV = "cd505d1486a4a98800adb99c610706feabd60b11"
+SRCREV = "0.16.0"
 
 SRC_URI = "git://github.com/ARMmbed/mbed-edge-examples.git \
            file://pt-example \
@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/ARMmbed/mbed-edge-examples.git \
            file://blept-devices.json \
            file://0001-disable-doxygen.patch \
            file://0002-fix-libevent-build-with-CMake-in-Yocto.patch \
-           file://0003-fix-CMake-test-Build-Type-Release.patch \
+           file://0003-Set-optimization-level-to-0-only-if-FORTIFY_SOURCE-i.patch \
            file://mept-ble.init \
            "
 
