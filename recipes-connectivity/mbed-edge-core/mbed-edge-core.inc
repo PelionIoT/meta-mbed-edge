@@ -87,7 +87,8 @@ do_configure_prepend() {
     }
 
     # Temp fix for libwebsockets non-debug build
-    patch -p1 < ${WORKDIR}/0005-fota.manual_patch
+    # The one-liner checks if the patch has already been applied and is skipped, preventing a double-apply error when rebuilding
+    OUT="$(patch -p1 --forward < ${WORKDIR}/0005-fota.manual_patch)" || echo "${OUT}" | grep "Skipping patch" -q || (echo "$OUT" && false);
 
     export HTTP_PROXY=${HTTP_PROXY}
     export HTTPS_PROXY=${HTTPS_PROXY}
