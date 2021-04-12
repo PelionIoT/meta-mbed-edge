@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/parallaxsecond/parsec-se-driver.git;protocol=https;b
            git://github.com/ARMmbed/mbedtls.git;protocol=https;destsuffix=mbedtls;name=mbedtls"
 
 SRCREV_pn-${PN} = "${PV}"
-SRCREV_mbedtls = "mbedtls-2.22.0"
+SRCREV_mbedtls = "mbedtls-2.25.0"
 
 S = "${WORKDIR}/git"
 S_MBEDTLS = "${WORKDIR}/mbedtls"
