@@ -1,4 +1,3 @@
-#COMPATIBLE_MACHINE = "raspberrypi3"
 COMPATIBLE_MACHINE = "^rpi$"
 
 MBED_EDGE_CORE_CONFIG_TRACE_LEVEL ?= "WARN"
@@ -35,8 +34,5 @@ do_configure_prepend() {
 
 
 do_install_append() {
-    install -m 755 "${SCRIPT_DIR}/arm_update_cmdline.sh"                  "${D}/wigwag/mbed"
-    install -m 755 "${SCRIPT_DIR}/yocto_generic/arm_update_activate.sh"       "${D}/wigwag/mbed"
-    install -m 755 "${SCRIPT_DIR}/yocto_generic/arm_update_active_details.sh" "${D}/wigwag/mbed"
     install -m 755 "${WORKDIR}/deploy_ostree_delta_update.sh" "${D}/wigwag/mbed"
 }
