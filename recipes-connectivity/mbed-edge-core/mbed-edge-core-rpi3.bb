@@ -24,8 +24,6 @@ SRC_URI += "file://target.cmake \
             file://pal_plat_rpi3.c \
             file://0008-ordered-reboot.patch "
 
-SCRIPT_DIR = "${WORKDIR}/git/lib/mbed-cloud-client/update-client-hub/modules/pal-linux/scripts"
-
 do_configure_prepend() {
     mkdir -p ${S}/lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_rpi3
     cp ${WORKDIR}/pal_plat_rpi3.c ${S}/lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_rpi3/
