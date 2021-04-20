@@ -8,6 +8,14 @@ SET (BIND_TO_ALL_INTERFACES 0)
 SET (PAL_UPDATE_FIRMWARE_DIR "\"/mnt/cache/firmware\"")
 SET (ARM_UC_SOCKET_TIMEOUT_MS 300000)
 
+if (${FOTA_ENABLE})
+  add_definitions(
+      -DMBED_CLOUD_CLIENT_FOTA_LINUX_HEADER_FILENAME="/userdata/fota_fw_metadata"
+      -DMBED_CLOUD_CLIENT_FOTA_LINUX_UPDATE_STORAGE_FILENAME="/userdata/fota_candidate"
+      -DMBED_CLOUD_CLIENT_FOTA_LINUX_CANDIDATE_FILENAME="/userdata/fota_raw_candidate"
+  )
+endif()
+
 # When PARSEC_TPM_SE_SUPPORT is enabled, most likely you are using PSA trusted
 # storage rather than default ESFS to save the provisioning data. In that case, these
 # macros are don't care. To control the psa storage file location, please modify the

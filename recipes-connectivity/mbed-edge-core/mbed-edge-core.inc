@@ -19,8 +19,7 @@ SRC_URI = "git://github.com/ARMmbed/mbed-edge.git \
            file://0001-disable-Doxygen.patch \
            file://0001-parsec-se-driver-should-be-compiled-separately-in-Yo.patch \
            file://0002-fix-libevent-build-with-CMake-in-Yocto.patch \
-           file://0003-fix_libwebsockets_nondebug.manual_patch \
-           file://0005-fota.manual_patch"
+          "
 
 SRC_URI += "\
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://mbed_cloud_dev_credentials.c','',d)} \
@@ -81,10 +80,6 @@ do_configure_prepend() {
     [ -f "${WORKDIR}/update_default_resources.c" ] && {
         mv "${WORKDIR}/update_default_resources.c" config/
     }
-
-    # Temp fix for libwebsockets non-debug build
-    # The one-liner checks if the patch has already been applied and is skipped, preventing a double-apply error when rebuilding
-    OUT="$(patch -p1 --forward < ${WORKDIR}/0005-fota.manual_patch)" || echo "${OUT}" | grep "Skipping patch" -q || (echo "$OUT" && false);
 
     export HTTP_PROXY=${HTTP_PROXY}
     export HTTPS_PROXY=${HTTPS_PROXY}
