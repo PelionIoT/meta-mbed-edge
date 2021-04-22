@@ -37,11 +37,7 @@ PACKAGES = "${PN} ${PN}-dbg"
 FILES_${PN} += "/wigwag \
                 /wigwag/mbed \
                 /wigwag/mbed/edge-core \
-                /mnt \
-                /mnt/config \
-                /userdata \
-                /mnt/cache \
-                /mnt/flags"
+                /userdata"
 
 FILES_${PN}-dbg += "/wigwag/mbed/debug \
                     /usr/src/debug/mbed-edge"
@@ -122,10 +118,8 @@ do_install() {
     install -d "${D}${sysconfdir}/logrotate.d/"
     install -m 644 "${WORKDIR}/edge-core.logrotate" "${D}${sysconfdir}/logrotate.d"
 
-    install -d "${D}/mnt/config"
-    install -d "${D}/mnt/flags"
-    install -d "${D}/mnt/cache"
-    install -d "${D}/userdata"
 
+    install -d "${D}/etc/tmpfiles.d"
+    echo "d /var/rootdirs/userdata 0755 root root -" >> "${D}/etc/tmpfiles.d/userdata-tmpfiles.conf"
+    ln -sf "/var/rootdirs/userdata" "${D}/userdata"
 }
-
