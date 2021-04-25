@@ -1,4 +1,4 @@
-COMPATIBLE_MACHINE = "imx8mmevk"
+COMPATIBLE_MACHINE = "mx8mm"
 
 MBED_EDGE_CORE_CONFIG_TRACE_LEVEL ?= "WARN"
 MBED_EDGE_CORE_CONFIG_FIRMWARE_UPDATE ?= "ON"
@@ -15,20 +15,20 @@ require mbed-edge-core.inc
 PROVIDES += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 RPROVIDES_${PN} += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files/mbed-imx8mmevk:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/files/mbed-mx8mm:"
 SRC_URI += "file://target.cmake \
-            file://sotp_fs_imx8mmevk_yocto.h \
+            file://sotp_fs_mx8mm_yocto.h \
             file://deploy_ostree_delta_update.sh \
             file://0006-fota-callback.patch \
             file://0001-fix_psa_storage_location.patch \
-            file://pal_plat_imx8.c \
+            file://pal_plat_mx8mm.c \
             file://0008-ordered-reboot.patch "
 
 SCRIPT_DIR = "${WORKDIR}/git/lib/mbed-cloud-client/update-client-hub/modules/pal-linux/scripts"
 
 do_configure_prepend() {
-    mkdir -p ${S}/lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_imx8
-    cp ${WORKDIR}/pal_plat_imx8.c ${S}/lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_imx8/
+    mkdir -p ${S}/lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_mx8mm
+    cp ${WORKDIR}/pal_plat_mx8mm.c ${S}/lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_mx8mm/
 
 }
 
