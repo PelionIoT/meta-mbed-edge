@@ -17,6 +17,7 @@ RPROVIDES_${PN} += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files/mbed-uz:"
 SRC_URI += "file://target.cmake \
+            file://target-default.cmake \
             file://sotp_fs_uz_yocto.h \
             file://deploy_ostree_delta_update.sh \
             file://0006-fota-callback.patch \
