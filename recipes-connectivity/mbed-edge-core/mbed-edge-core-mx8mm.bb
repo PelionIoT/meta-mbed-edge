@@ -15,7 +15,7 @@ require mbed-edge-core.inc
 PROVIDES += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 RPROVIDES_${PN} += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files/mbed-mx8mm:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/files/mx8mm:"
 SRC_URI += "file://target.cmake \
             file://sotp_fs_mx8mm_yocto.h \
             file://deploy_ostree_delta_update.sh \
