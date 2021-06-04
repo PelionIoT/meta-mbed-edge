@@ -1,6 +1,6 @@
 #!/bin/bash
 # ----------------------------------------------------------------------------
-# Copyright (c) 2020, Arm Limited and affiliates.
+# Copyright (c) 2021, Pelion Ltd.
 #
 # SPDX-License-Identifier: Apache-2.0
 #
