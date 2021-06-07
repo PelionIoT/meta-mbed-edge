@@ -4,7 +4,7 @@ LICENSE="Apache-2.0"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
 SRCREV = "0.18.0"
-SRC_URI = "git://github.com/ARMmbed/mbed-edge.git"
+SRC_URI = "git://github.com/PelionIoT/mbed-edge.git"
 
 S = "${WORKDIR}/git/edge-tool"
 
