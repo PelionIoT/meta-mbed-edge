@@ -15,7 +15,7 @@ require mbed-edge-core.inc
 PROVIDES += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 RPROVIDES_${PN} += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files/mbed-uz:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/files/uz:"
 SRC_URI += "file://target.cmake \
             file://target-default.cmake \
             file://sotp_fs_uz_yocto.h \
