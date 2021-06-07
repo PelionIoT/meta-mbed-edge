@@ -32,6 +32,7 @@ DEPENDS = " libcap mosquitto mercurial-native curl python3-native python3-pip-na
 DEPENDS += "${@ 'parsec-se-driver' if d.getVar('MBED_EDGE_CORE_CONFIG_PARSEC_TPM_SE_SUPPORT') == 'ON' else ' '}"
 
 RDEPENDS_${PN} = " procps bash tar bzip2 rng-tools glibc-utils"
+RDEPENDS_${PN} += "${@ 'edge-tool' if d.getVar('MBED_EDGE_CORE_CONFIG_BYOC_MODE') == 'ON' else ' '}"
 
 # Installed packages
 PACKAGES = "${PN} ${PN}-dbg"
