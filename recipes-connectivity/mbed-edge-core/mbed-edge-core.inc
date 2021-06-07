@@ -10,7 +10,7 @@ SRCREV = "0.16.1"
 
 RM_WORK_EXCLUDE += "${PN}"
 
-SRC_URI = "git://github.com/ARMmbed/mbed-edge.git \
+SRC_URI = "git://github.com/PelionIoT/mbed-edge.git \
            file://edge-core.init \
            file://edge-core.service \
            file://edge-core.logrotate \
