@@ -10,7 +10,7 @@ SRCREV = "0.18.0"
 
 RM_WORK_EXCLUDE += "${PN}"
 
-SRC_URI = "git://github.com/ARMmbed/mbed-edge.git \
+SRC_URI = "gitsm://github.com/ARMmbed/mbed-edge.git \
            file://edge-core.init \
            file://edge-core.service \
            file://edge-core.logrotate \
@@ -73,7 +73,7 @@ SYSTEMD_SERVICE_${PN} = "edge-core.service"
 
 do_configure_prepend() {
     cd ${S}
-    git submodule update --init --recursive
+    
     [ -f "${WORKDIR}/mbed_cloud_dev_credentials.c" ] && {
         mv "${WORKDIR}/mbed_cloud_dev_credentials.c" config/
     }
