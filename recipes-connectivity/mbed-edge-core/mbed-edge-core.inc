@@ -6,11 +6,11 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa3
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRCREV = "0.16.1"
+SRCREV = "0.18.0"
 
 RM_WORK_EXCLUDE += "${PN}"
 
-SRC_URI = "git://github.com/PelionIoT/mbed-edge.git \
+SRC_URI = "gitsm://github.com/PelionIoT/mbed-edge.git \
            file://edge-core.init \
            file://edge-core.service \
            file://edge-core.logrotate \
@@ -47,6 +47,8 @@ inherit cmake update-rc.d systemd python3native
 
 MBED_EDGE_CMAKE_BUILD_TYPE ?= "Debug"
 
+lcl_maybe_fortify = '-D_FORTIFY_SOURCE=0'
+
 EXTRA_OECMAKE += " \
     -DCMAKE_BUILD_TYPE=${MBED_EDGE_CMAKE_BUILD_TYPE} \
     -DTARGET_TOOLCHAIN=yocto \
@@ -73,7 +75,7 @@ SYSTEMD_SERVICE_${PN} = "edge-core.service"
 
 do_configure_prepend() {
     cd ${S}
-    git submodule update --init --recursive
+    
     [ -f "${WORKDIR}/mbed_cloud_dev_credentials.c" ] && {
         mv "${WORKDIR}/mbed_cloud_dev_credentials.c" config/
     }
