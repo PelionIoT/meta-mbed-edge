@@ -12,7 +12,6 @@ RM_WORK_EXCLUDE += "${PN}"
 
 SRC_URI = "git://github.com/ARMmbed/mbed-edge.git \
            file://edge-core.init \
-           file://edge-core.service \
            file://edge-core.logrotate \
            file://toolchain.cmake \
            file://mbed_cloud_client_user_config.h \
@@ -24,12 +23,16 @@ SRC_URI = "git://github.com/ARMmbed/mbed-edge.git \
 SRC_URI += "\
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://mbed_cloud_dev_credentials.c','',d)} \
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://update_default_resources.c','',d)} \
+    ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_BYOC_MODE','OFF','file://edge-core.service','',d)} \
+    ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_BYOC_MODE','ON','file://edge-core-byoc.service','',d)} \
+    ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_BYOC_MODE','ON','file://launch-byoc-edge-core.sh','',d)} \
 "
 
 DEPENDS = " libcap mosquitto mercurial-native curl python3-native python3-pip-native python3 python3-setuptools-native python3-setuptools-scm"
 DEPENDS += "${@ 'parsec-se-driver' if d.getVar('MBED_EDGE_CORE_CONFIG_PARSEC_TPM_SE_SUPPORT') == 'ON' else ' '}"
 
 RDEPENDS_${PN} = " procps bash tar bzip2 rng-tools glibc-utils"
+RDEPENDS_${PN} += "${@ 'edge-tool' if d.getVar('MBED_EDGE_CORE_CONFIG_BYOC_MODE') == 'ON' else ' '}"
 
 # Installed packages
 PACKAGES = "${PN} ${PN}-dbg"
@@ -40,6 +43,8 @@ FILES_${PN} += "/wigwag \
 
 FILES_${PN}-dbg += "/wigwag/mbed/debug \
                     /usr/src/debug/mbed-edge"
+
+wbindir= "/wigwag/system/bin"
 
 S = "${WORKDIR}/git"
 
@@ -105,7 +110,14 @@ do_install() {
     install -m 755 "${WORKDIR}/edge-core.init" "${D}/etc/init.d/${INITSCRIPT_NAME}"
 
     install -d "${D}${systemd_system_unitdir}"
-    install -m 755 "${WORKDIR}/edge-core.service" "${D}${systemd_system_unitdir}/edge-core.service"
+
+    if [ "${MBED_EDGE_CORE_CONFIG_BYOC_MODE}" = "ON" ]; then
+        install -d "${D}${wbindir}"
+        install -m 755 "${WORKDIR}/edge-core-byoc.service" "${D}${systemd_system_unitdir}/edge-core.service"
+        install -m 755 "${WORKDIR}/launch-byoc-edge-core.sh" "${D}${wbindir}/"
+    else
+        install -m 755 "${WORKDIR}/edge-core.service" "${D}${systemd_system_unitdir}/edge-core.service"
+    fi
 
     install -d "${D}/wigwag/mbed"
     install "${WORKDIR}/build/bin/edge-core" "${D}/wigwag/mbed"
