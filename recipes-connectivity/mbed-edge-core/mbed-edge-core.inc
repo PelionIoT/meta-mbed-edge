@@ -47,6 +47,8 @@ inherit cmake update-rc.d systemd python3native
 
 MBED_EDGE_CMAKE_BUILD_TYPE ?= "Debug"
 
+lcl_maybe_fortify = '-D_FORTIFY_SOURCE=0'
+
 EXTRA_OECMAKE += " \
     -DCMAKE_BUILD_TYPE=${MBED_EDGE_CMAKE_BUILD_TYPE} \
     -DTARGET_TOOLCHAIN=yocto \
