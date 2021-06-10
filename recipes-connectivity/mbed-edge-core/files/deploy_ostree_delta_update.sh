@@ -65,18 +65,28 @@ if [ $RESULT -eq 0 ]; then
 
     if [ $RESULT -eq 0 ]; then
 
-        # Make the new deployment.
-        ostree admin deploy $to_sha
-
-        # sync filesystems to make sure everything is flushed.
-        sync
-
+        # check if the ostree version is already deployed
+        ostree admin status | grep "$to_sha" >  /dev/null 2>&1
         RESULT=$?
+
         if [ $RESULT -eq 0 ]; then
-            echo "Delta deployed correctly"
+            echo "Update already deployed"
+            exit 0
         else
-            echo "Delta failed to deploy"
-            exit 1
+
+            # Make the new deployment.
+            ostree admin deploy $to_sha
+
+            # sync filesystems to make sure everything is flushed.
+            sync
+
+            RESULT=$?
+            if [ $RESULT -eq 0 ]; then
+                echo "Delta deployed correctly"
+            else
+                echo "Delta failed to deploy"
+                exit 1
+            fi
         fi
 
     else
