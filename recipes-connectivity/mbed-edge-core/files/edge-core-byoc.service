@@ -5,8 +5,7 @@ After=systemd-networkd-wait-online.service
 [Service]
 Restart=always
 RestartSec=5s
-ExecStartPre=mkdir -p /userdata/mbed
-ExecStartPre=chown developer -R /userdata/mbed
+ExecStartPre=mkdir -m640 -p /userdata/mbed
 ExecStart=/wigwag/system/bin/launch-byoc-edge-core.sh
 
 [Install]
