@@ -7,7 +7,6 @@ Restart=always
 RestartSec=5s
 ExecStartPre=mkdir -p /userdata/mbed
 ExecStartPre=chown developer -R /userdata/mbed
-ExecStartPre=sh -c "nmcli networking connectivity | grep full"
 ExecStart=/wigwag/system/bin/launch-byoc-edge-core.sh
 
 [Install]
