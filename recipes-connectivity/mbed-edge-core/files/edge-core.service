@@ -5,7 +5,7 @@ After=systemd-networkd-wait-online.service
 [Service]
 Restart=always
 RestartSec=5s
-ExecStartPre=mkdir -m640 -p /userdata/mbed
+ExecStartPre=mkdir -m700 -p /userdata/mbed
 ExecStart=/wigwag/mbed/edge-core  --http-port 9101
 
 [Install]
