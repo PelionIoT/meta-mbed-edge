@@ -1,6 +1,6 @@
 [Unit]
 Description=Edge Core
-After=systemd-networkd-wait-online.service
+After=network-online.target
 
 [Service]
 Restart=always
