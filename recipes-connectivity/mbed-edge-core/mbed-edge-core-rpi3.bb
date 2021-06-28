@@ -1,10 +1,10 @@
-COMPATIBLE_MACHINE = "raspberrypi3"
+COMPATIBLE_MACHINE = "^rpi$"
 
 MBED_EDGE_CORE_CONFIG_TRACE_LEVEL ?= "WARN"
 MBED_EDGE_CORE_CONFIG_FIRMWARE_UPDATE ?= "ON"
-MBED_EDGE_CORE_CONFIG_FOTA_ENABLE ?= "OFF"
-MBED_EDGE_CORE_CONFIG_FOTA_TRACE ?= "OFF"
-MBED_EDGE_CORE_CONFIG_CURL_DYNAMIC_LINK ?= "OFF"
+MBED_EDGE_CORE_CONFIG_FOTA_ENABLE ?= "ON"
+MBED_EDGE_CORE_CONFIG_FOTA_TRACE ?= "ON"
+MBED_EDGE_CORE_CONFIG_CURL_DYNAMIC_LINK ?= "ON"
 MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE ?= "ON"
 MBED_EDGE_CORE_CONFIG_FACTORY_MODE ?= "OFF"
 MBED_EDGE_CORE_CONFIG_BYOC_MODE ?= "OFF"
@@ -17,15 +17,21 @@ RPROVIDES_${PN} += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files/rpi3:"
 SRC_URI += "file://target.cmake \
+            file://target-default.cmake \
             file://sotp_fs_rpi3_yocto.h \
-            file://arm_update_cmdline.sh \
-            file://arm_update_activate.sh \
-            file://arm_update_active_details.sh \
-            file://0001-change-path-to-upgrade-scripts.patch \
-            "
+            file://deploy_ostree_delta_update.sh \
+            file://0006-fota-callback.patch \
+            file://0001-fix_psa_storage_location.patch \
+            file://pal_plat_rpi3.c \
+            file://0008-ordered-reboot.patch "
+
+do_configure_prepend() {
+    mkdir -p ${S}/lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_rpi3
+    cp ${WORKDIR}/pal_plat_rpi3.c ${S}/lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_rpi3/
+
+}
+
 
 do_install_append() {
-    install -m 755 "${WORKDIR}/arm_update_cmdline.sh"        "${D}/wigwag/mbed"
-    install -m 755 "${WORKDIR}/arm_update_activate.sh"       "${D}/wigwag/mbed"
-    install -m 755 "${WORKDIR}/arm_update_active_details.sh" "${D}/wigwag/mbed"
+    install -m 755 "${WORKDIR}/deploy_ostree_delta_update.sh" "${D}/wigwag/mbed"
 }

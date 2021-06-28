@@ -6,51 +6,53 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa3
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRCREV = "0.16.1"
+SRCREV = "0.18.0"
 
 RM_WORK_EXCLUDE += "${PN}"
 
-SRC_URI = "git://github.com/ARMmbed/mbed-edge.git \
+SRC_URI = "gitsm://github.com/PelionIoT/mbed-edge.git \
            file://edge-core.init \
-           file://edge-core.service \
            file://edge-core.logrotate \
            file://toolchain.cmake \
            file://mbed_cloud_client_user_config.h \
            file://0001-disable-Doxygen.patch \
            file://0001-parsec-se-driver-should-be-compiled-separately-in-Yo.patch \
            file://0002-fix-libevent-build-with-CMake-in-Yocto.patch \
-           file://0003-fix_libwebsockets_nondebug.manual_patch \
-           file://0005-fota.manual_patch"
+          "
 
 SRC_URI += "\
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://mbed_cloud_dev_credentials.c','',d)} \
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://update_default_resources.c','',d)} \
+    ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_BYOC_MODE','OFF','file://edge-core.service','',d)} \
+    ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_BYOC_MODE','ON','file://edge-core-byoc.service','',d)} \
+    ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_BYOC_MODE','ON','file://launch-byoc-edge-core.sh','',d)} \
 "
 
 DEPENDS = " libcap mosquitto mercurial-native curl python3-native python3-pip-native python3 python3-setuptools-native python3-setuptools-scm"
 DEPENDS += "${@ 'parsec-se-driver' if d.getVar('MBED_EDGE_CORE_CONFIG_PARSEC_TPM_SE_SUPPORT') == 'ON' else ' '}"
 
 RDEPENDS_${PN} = " procps bash tar bzip2 rng-tools glibc-utils"
+RDEPENDS_${PN} += "${@ 'edge-tool' if d.getVar('MBED_EDGE_CORE_CONFIG_BYOC_MODE') == 'ON' else ' '}"
 
 # Installed packages
 PACKAGES = "${PN} ${PN}-dbg"
 FILES_${PN} += "/wigwag \
                 /wigwag/mbed \
                 /wigwag/mbed/edge-core \
-                /mnt \
-                /mnt/config \
-                /userdata \
-                /mnt/cache \
-                /mnt/flags"
+                /userdata"
 
 FILES_${PN}-dbg += "/wigwag/mbed/debug \
                     /usr/src/debug/mbed-edge"
+
+wbindir= "/wigwag/system/bin"
 
 S = "${WORKDIR}/git"
 
 inherit cmake update-rc.d systemd python3native
 
 MBED_EDGE_CMAKE_BUILD_TYPE ?= "Debug"
+
+lcl_maybe_fortify = '-D_FORTIFY_SOURCE=0'
 
 EXTRA_OECMAKE += " \
     -DCMAKE_BUILD_TYPE=${MBED_EDGE_CMAKE_BUILD_TYPE} \
@@ -78,16 +80,13 @@ SYSTEMD_SERVICE_${PN} = "edge-core.service"
 
 do_configure_prepend() {
     cd ${S}
-    git submodule update --init --recursive
+    
     [ -f "${WORKDIR}/mbed_cloud_dev_credentials.c" ] && {
         mv "${WORKDIR}/mbed_cloud_dev_credentials.c" config/
     }
     [ -f "${WORKDIR}/update_default_resources.c" ] && {
         mv "${WORKDIR}/update_default_resources.c" config/
     }
-
-    # Temp fix for libwebsockets non-debug build
-    patch -p1 < ${WORKDIR}/0005-fota.manual_patch
 
     export HTTP_PROXY=${HTTP_PROXY}
     export HTTPS_PROXY=${HTTPS_PROXY}
@@ -113,7 +112,14 @@ do_install() {
     install -m 755 "${WORKDIR}/edge-core.init" "${D}/etc/init.d/${INITSCRIPT_NAME}"
 
     install -d "${D}${systemd_system_unitdir}"
-    install -m 755 "${WORKDIR}/edge-core.service" "${D}${systemd_system_unitdir}/edge-core.service"
+
+    if [ "${MBED_EDGE_CORE_CONFIG_BYOC_MODE}" = "ON" ]; then
+        install -d "${D}${wbindir}"
+        install -m 755 "${WORKDIR}/edge-core-byoc.service" "${D}${systemd_system_unitdir}/edge-core.service"
+        install -m 755 "${WORKDIR}/launch-byoc-edge-core.sh" "${D}${wbindir}/"
+    else
+        install -m 755 "${WORKDIR}/edge-core.service" "${D}${systemd_system_unitdir}/edge-core.service"
+    fi
 
     install -d "${D}/wigwag/mbed"
     install "${WORKDIR}/build/bin/edge-core" "${D}/wigwag/mbed"
@@ -121,10 +127,8 @@ do_install() {
     install -d "${D}${sysconfdir}/logrotate.d/"
     install -m 644 "${WORKDIR}/edge-core.logrotate" "${D}${sysconfdir}/logrotate.d"
 
-    install -d "${D}/mnt/config"
-    install -d "${D}/mnt/flags"
-    install -d "${D}/mnt/cache"
-    install -d "${D}/userdata"
 
+    install -d "${D}/etc/tmpfiles.d"
+    echo "d /var/rootdirs/userdata 0755 root root -" >> "${D}/etc/tmpfiles.d/userdata-tmpfiles.conf"
+    ln -sf "/var/rootdirs/userdata" "${D}/userdata"
 }
-

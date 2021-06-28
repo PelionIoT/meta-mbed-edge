@@ -15,8 +15,9 @@ require mbed-edge-core.inc
 PROVIDES += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 RPROVIDES_${PN} += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files/mbed-uz:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/files/uz:"
 SRC_URI += "file://target.cmake \
+            file://target-default.cmake \
             file://sotp_fs_uz_yocto.h \
             file://deploy_ostree_delta_update.sh \
             file://0006-fota-callback.patch \
@@ -32,8 +33,5 @@ do_configure_prepend() {
 }
 
 do_install_append() {
-    install -m 755 "${SCRIPT_DIR}/arm_update_cmdline.sh"                  "${D}/wigwag/mbed"
-    install -m 755 "${SCRIPT_DIR}/yocto_generic/arm_update_activate.sh"       "${D}/wigwag/mbed"
-    install -m 755 "${SCRIPT_DIR}/yocto_generic/arm_update_active_details.sh" "${D}/wigwag/mbed"
     install -m 755 "${WORKDIR}/deploy_ostree_delta_update.sh" "${D}/wigwag/mbed"
 }
