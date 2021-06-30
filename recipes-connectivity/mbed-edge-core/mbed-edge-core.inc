@@ -120,10 +120,6 @@ do_install() {
     install -d "${D}/wigwag/mbed"
     install "${WORKDIR}/build/bin/edge-core" "${D}/wigwag/mbed"
 
-    install -d "${D}${sysconfdir}/logrotate.d/"
-    install -m 644 "${WORKDIR}/edge-core.logrotate" "${D}${sysconfdir}/logrotate.d"
-
-
     install -d "${D}/etc/tmpfiles.d"
     echo "d /var/rootdirs/userdata 0755 root root -" >> "${D}/etc/tmpfiles.d/userdata-tmpfiles.conf"
     ln -sf "/var/rootdirs/userdata" "${D}/userdata"
