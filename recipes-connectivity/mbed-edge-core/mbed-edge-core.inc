@@ -90,6 +90,7 @@ do_configure_prepend() {
     export HTTPS_PROXY=${HTTPS_PROXY}
 
     pip3 install mbed-cli==1.10.5
+    python3 -m mbed deploy --protocol ssh
 
 }
 
@@ -104,8 +105,6 @@ do_compile_prepend() {
             cp ${PKG_CONFIG_SYSROOT_DIR}/usr/lib/libparsec_se_driver.a ${S}/lib/pal-platform/Middleware/parsec_se_driver/parsec_se_driver/target/release/
         fi
     fi
-
-    python3 -m mbed deploy --protocol ssh
 
 }
 
