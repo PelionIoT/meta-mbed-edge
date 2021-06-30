@@ -6,11 +6,11 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa3
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRCREV = "0.18.0"
+SRCREV = "${AUTOREV}"
 
 RM_WORK_EXCLUDE += "${PN}"
 
-SRC_URI = "gitsm://github.com/PelionIoT/mbed-edge.git \
+SRC_URI = "gitsm://github.com/PelionIoT/mbed-edge.git;branch=internal \
            file://toolchain.cmake \
            file://mbed_cloud_client_user_config.h \
            file://0001-disable-Doxygen.patch \
@@ -89,6 +89,8 @@ do_configure_prepend() {
     export HTTP_PROXY=${HTTP_PROXY}
     export HTTPS_PROXY=${HTTPS_PROXY}
 
+    pip3 install mbed-cli==1.10.5
+
 }
 
 do_compile_prepend() {
@@ -102,6 +104,8 @@ do_compile_prepend() {
             cp ${PKG_CONFIG_SYSROOT_DIR}/usr/lib/libparsec_se_driver.a ${S}/lib/pal-platform/Middleware/parsec_se_driver/parsec_se_driver/target/release/
         fi
     fi
+
+    python3 -m mbed deploy --protocol ssh
 
 }
 
