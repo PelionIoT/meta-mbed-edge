@@ -1,8 +1,6 @@
 if (${FOTA_ENABLE})
   add_definitions(
-      -DMBED_CLOUD_CLIENT_FOTA_LINUX_HEADER_FILENAME="/userdata/fota_fw_metadata"
-      -DMBED_CLOUD_CLIENT_FOTA_LINUX_UPDATE_STORAGE_FILENAME="/userdata/fota_candidate"
-      -DMBED_CLOUD_CLIENT_FOTA_LINUX_CANDIDATE_FILENAME="/userdata/fota_raw_candidate"
+      -DMBED_CLOUD_CLIENT_FOTA_LINUX_CONFIG_DIR="/userdata"
   )
 
   SET (MBED_CLOUD_CLIENT_MIDDLEWARE curl)
