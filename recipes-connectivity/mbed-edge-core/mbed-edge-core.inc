@@ -10,14 +10,14 @@ SRCREV = "0.18.0"
 
 RM_WORK_EXCLUDE += "${PN}"
 
-SRC_URI = "gitsm://github.com/PelionIoT/mbed-edge.git \
+SRC_URI = "file://git \
            file://edge-core.init \
            file://edge-core.logrotate \
            file://toolchain.cmake \
            file://mbed_cloud_client_user_config.h \
-           file://0001-disable-Doxygen.patch \
-           file://0001-parsec-se-driver-should-be-compiled-separately-in-Yo.patch \
-           file://0002-fix-libevent-build-with-CMake-in-Yocto.patch \
+           file://0001-disable-Doxygen.manual_patch \
+           file://0001-parsec-se-driver-should-be-compiled-separately-in-Yo.manual_patch \
+           file://0002-fix-libevent-build-with-CMake-in-Yocto.manual_patch \
           "
 
 SRC_URI += "\
@@ -80,13 +80,19 @@ SYSTEMD_SERVICE_${PN} = "edge-core.service"
 
 do_configure_prepend() {
     cd ${S}
-    
+
+    git submodule update --init --recursive
+
     [ -f "${WORKDIR}/mbed_cloud_dev_credentials.c" ] && {
         mv "${WORKDIR}/mbed_cloud_dev_credentials.c" config/
     }
     [ -f "${WORKDIR}/update_default_resources.c" ] && {
         mv "${WORKDIR}/update_default_resources.c" config/
     }
+
+    OUT="$(patch -p1 --forward < ${WORKDIR}/0001-disable-Doxygen.manual_patch)" || echo "${OUT}" | grep "Skipping patch 1" -q || (echo "$OUT" && false);
+    OUT="$(patch -p1 --forward < ${WORKDIR}/0001-parsec-se-driver-should-be-compiled-separately-in-Yo.manual_patch)" || echo "${OUT}" | grep "Skipping patch 2" -q || (echo "$OUT" && false);
+    OUT="$(patch -p1 --forward < ${WORKDIR}/0002-fix-libevent-build-with-CMake-in-Yocto.manual_patch)" || echo "${OUT}" | grep "Skipping patch 3" -q || (echo "$OUT" && false);
 
     export HTTP_PROXY=${HTTP_PROXY}
     export HTTPS_PROXY=${HTTPS_PROXY}
