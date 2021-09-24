@@ -39,15 +39,15 @@ EXTRA_OECMAKE += " \
     -DTARGET_TOOLCHAIN=yocto \
     -DCMAKE_BUILD_TYPE=Release \
     ${MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS} "
-inherit cmake
+inherit cmake update-rc.d
 
-inherit update-rc.d
 INITSCRIPT_NAME = "mept-ble"
 INITSCRIPT_PARAMS = "defaults 86 15"
 
 do_configure_prepend() {
     cd ${S}
     git submodule update --init --recursive
+    cd ${B}
 }
 
 do_install() {

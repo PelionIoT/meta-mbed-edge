@@ -80,7 +80,6 @@ SYSTEMD_SERVICE_${PN} = "edge-core.service"
 
 do_configure_prepend() {
     cd ${S}
-    
     [ -f "${WORKDIR}/mbed_cloud_dev_credentials.c" ] && {
         mv "${WORKDIR}/mbed_cloud_dev_credentials.c" config/
     }
@@ -90,6 +89,7 @@ do_configure_prepend() {
 
     export HTTP_PROXY=${HTTP_PROXY}
     export HTTPS_PROXY=${HTTPS_PROXY}
+    cd ${B}
 
 }
 
@@ -104,7 +104,6 @@ do_compile_prepend() {
             cp ${PKG_CONFIG_SYSROOT_DIR}/usr/lib/libparsec_se_driver.a ${S}/lib/pal-platform/Middleware/parsec_se_driver/parsec_se_driver/target/release/
         fi
     fi
-
 }
 
 do_install() {
