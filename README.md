@@ -25,7 +25,7 @@ needs to be enabled and the firmware for the bluetooth chip needs to be installe
 can be done by adding following lines to the local.conf:
 
 ```
-DISTRO_FEATURES_append += " bluetooth "
+DISTRO_FEATURES_append = " bluetooth "
 
 CORE_IMAGE_EXTRA_INSTALL += " linux-firmware-bcm43430 linux-firmware-bcm43430a1-hcd "
 ```
