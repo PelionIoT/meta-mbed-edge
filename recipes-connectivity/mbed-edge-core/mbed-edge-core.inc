@@ -6,11 +6,11 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa3
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRCREV = "0.18.0"
+SRCREV = "${AUTOREV}"
 
 RM_WORK_EXCLUDE += "${PN}"
 
-SRC_URI = "gitsm://github.com/PelionIoT/mbed-edge.git \
+SRC_URI = "file://git \
            file://edge-core.init \
            file://edge-core.logrotate \
            file://toolchain.cmake \
@@ -94,8 +94,12 @@ do_configure_prepend() {
 
     export HTTP_PROXY=${HTTP_PROXY}
     export HTTPS_PROXY=${HTTPS_PROXY}
-    cd ${B}
 
+    echo "ROOT=." > .mbed
+    pip3 install mbed-cli==1.10.5
+    python3 -m mbed deploy --protocol ssh
+
+    cd ${B}
 }
 
 do_compile_prepend() {
