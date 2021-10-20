@@ -20,7 +20,6 @@ SRC_URI += "file://target.cmake \
             file://target-default.cmake \
             file://sotp_fs_mx8mm_yocto.h \
             file://deploy_ostree_delta_update.sh \
-            file://0006-fota-callback.patch \
             file://0001-fix_psa_storage_location.patch \
             file://pal_plat_mx8mm.c \
             file://0008-ordered-reboot.patch "

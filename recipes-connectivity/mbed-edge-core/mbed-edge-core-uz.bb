@@ -4,6 +4,7 @@ MBED_EDGE_CORE_CONFIG_TRACE_LEVEL ?= "WARN"
 MBED_EDGE_CORE_CONFIG_FIRMWARE_UPDATE ?= "ON"
 MBED_EDGE_CORE_CONFIG_FOTA_ENABLE ?= "ON"
 MBED_EDGE_CORE_CONFIG_FOTA_TRACE ?= "ON"
+MBED_EDGE_CORE_CONFIG_FOTA_COMBINED_IMAGE_SUPPORT ?= "ON"
 MBED_EDGE_CORE_CONFIG_CURL_DYNAMIC_LINK ?= "ON"
 MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE ?= "ON"
 MBED_EDGE_CORE_CONFIG_FACTORY_MODE ?= "OFF"
@@ -20,7 +21,6 @@ SRC_URI += "file://target.cmake \
             file://target-default.cmake \
             file://sotp_fs_uz_yocto.h \
             file://deploy_ostree_delta_update.sh \
-            file://0006-fota-callback.patch \
             file://0001-fix_psa_storage_location.patch \
             file://pal_plat_uz.c \
             file://0008-ordered-reboot.patch "
