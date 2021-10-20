@@ -11,8 +11,6 @@ SRCREV = "0.19.0"
 RM_WORK_EXCLUDE += "${PN}"
 
 SRC_URI = "gitsm://github.com/PelionIoT/mbed-edge.git \
-           file://edge-core.init \
-           file://edge-core.logrotate \
            file://toolchain.cmake \
            file://mbed_cloud_client_user_config.h \
            file://0001-disable-Doxygen.patch \
@@ -85,6 +83,7 @@ SYSTEMD_SERVICE_${PN} = "edge-core.service"
 
 do_configure_prepend() {
     cd ${S}
+
     [ -f "${WORKDIR}/mbed_cloud_dev_credentials.c" ] && {
         mv "${WORKDIR}/mbed_cloud_dev_credentials.c" config/
     }
@@ -112,8 +111,6 @@ do_compile_prepend() {
 }
 
 do_install() {
-    install -d "${D}/etc/init.d/"
-    install -m 755 "${WORKDIR}/edge-core.init" "${D}/etc/init.d/${INITSCRIPT_NAME}"
 
     install -d "${D}${systemd_system_unitdir}"
 
@@ -127,10 +124,6 @@ do_install() {
 
     install -d "${D}/wigwag/mbed"
     install "${WORKDIR}/build/bin/edge-core" "${D}/wigwag/mbed"
-
-    install -d "${D}${sysconfdir}/logrotate.d/"
-    install -m 644 "${WORKDIR}/edge-core.logrotate" "${D}${sysconfdir}/logrotate.d"
-
 
     install -d "${D}/etc/tmpfiles.d"
     echo "d /var/rootdirs/userdata 0755 root root -" >> "${D}/etc/tmpfiles.d/userdata-tmpfiles.conf"
