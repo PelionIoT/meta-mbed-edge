@@ -5,10 +5,10 @@ LICENSE = "Apache-2.0"
 
 inherit cargo
 SRC_URI = "git://github.com/parallaxsecond/parsec-se-driver.git;protocol=https;branch=main \
-           git://github.com/ARMmbed/mbedtls.git;protocol=https;destsuffix=mbedtls;name=mbedtls"
+           git://github.com/ARMmbed/mbedtls.git;protocol=https;destsuffix=mbedtls;name=mbedtls;branch=development_2.x"
 
 SRCREV_pn-${PN} = "${PV}"
-SRCREV_mbedtls = "mbedtls-2.25.0"
+SRCREV_mbedtls = "mbedtls-2.27.0"
 
 S = "${WORKDIR}/git"
 S_MBEDTLS = "${WORKDIR}/mbedtls"
