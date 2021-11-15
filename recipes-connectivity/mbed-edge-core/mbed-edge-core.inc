@@ -16,6 +16,7 @@ SRC_URI = "gitsm://github.com/PelionIoT/mbed-edge.git \
            file://0001-disable-Doxygen.patch \
            file://0001-parsec-se-driver-should-be-compiled-separately-in-Yo.patch \
            file://0002-fix-libevent-build-with-CMake-in-Yocto.patch \
+           file://0001-Temporary-fix-for-trace-mutex-lock-issue.patch \
           "
 
 SRC_URI += "\
