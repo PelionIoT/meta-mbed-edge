@@ -22,7 +22,9 @@ SRC_URI += "file://target.cmake \
             file://deploy_ostree_delta_update.sh \
             file://0001-fix_psa_storage_location.patch \
             file://pal_plat_rpi3.c \
-            file://0008-ordered-reboot.patch "
+            file://0008-ordered-reboot.patch \
+            file://0001-Temporary-fix-for-trace-mutex-lock-issue.patch \
+            "
 
 do_configure_prepend() {
     mkdir -p ${S}/lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_rpi3
