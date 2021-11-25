@@ -29,6 +29,7 @@ SRC_URI += "\
 
 DEPENDS = " libcap mosquitto mercurial-native curl python3-native python3-pip-native python3 python3-setuptools-native python3-setuptools-scm"
 DEPENDS += "${@ 'parsec-se-driver' if d.getVar('MBED_EDGE_CORE_CONFIG_PARSEC_TPM_SE_SUPPORT') == 'ON' else ' '}"
+DEPENDS += "${@ 'libgpiod' if d.getVar('MBED_EDGE_CORE_CONFIG_RFS_GPIO') == 'ON' else ' '}"
 
 RDEPENDS_${PN} = " procps bash tar bzip2 rng-tools glibc-utils"
 RDEPENDS_${PN} += "${@ 'edge-tool' if d.getVar('MBED_EDGE_CORE_CONFIG_BYOC_MODE') == 'ON' else ' '}"
@@ -73,6 +74,11 @@ EXTRA_OECMAKE += " \
     -DFACTORY_MODE=${MBED_EDGE_CORE_CONFIG_FACTORY_MODE} \
     -DBYOC_MODE=${MBED_EDGE_CORE_CONFIG_BYOC_MODE} \
     -DPARSEC_TPM_SE_SUPPORT=${MBED_EDGE_CORE_CONFIG_PARSEC_TPM_SE_SUPPORT} \
+    -DRFS_GPIO=${MBED_EDGE_CORE_CONFIG_RFS_GPIO} \
+    -DRFS_GPIO_CHIP=${MBED_EDGE_CORE_CONFIG_RFS_GPIO_CHIP} \
+    -DRFS_GPIO_NAME=${MBED_EDGE_CORE_CONFIG_RFS_GPIO_NAME} \
+    -DRFS_GPIO_OFFSET=${MBED_EDGE_CORE_CONFIG_RFS_GPIO_OFFSET} \
+    -DRFS_GPIO_FLAGS=${MBED_EDGE_CORE_CONFIG_RFS_GPIO_FLAGS} \
     ${MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS} \
     "
 
