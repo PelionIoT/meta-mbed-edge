@@ -6,18 +6,17 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa3
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRCREV = "0.18.0"
+SRCREV = "0.19.1"
 
 RM_WORK_EXCLUDE += "${PN}"
 
 SRC_URI = "gitsm://github.com/PelionIoT/mbed-edge.git \
-           file://edge-core.init \
-           file://edge-core.logrotate \
            file://toolchain.cmake \
            file://mbed_cloud_client_user_config.h \
            file://0001-disable-Doxygen.patch \
            file://0001-parsec-se-driver-should-be-compiled-separately-in-Yo.patch \
            file://0002-fix-libevent-build-with-CMake-in-Yocto.patch \
+           file://0001-Temporary-fix-for-trace-mutex-lock-issue.patch \
           "
 
 SRC_URI += "\
@@ -65,6 +64,11 @@ EXTRA_OECMAKE += " \
     -DMBED_CLOUD_CLIENT_CURL_DYNAMIC_LINK=${MBED_EDGE_CORE_CONFIG_CURL_DYNAMIC_LINK} \
     -DFOTA_ENABLE=${MBED_EDGE_CORE_CONFIG_FOTA_ENABLE} \
     -DFOTA_TRACE=${MBED_EDGE_CORE_CONFIG_FOTA_TRACE} \
+    -DFOTA_COMBINED_IMAGE_SUPPORT=${MBED_EDGE_CORE_CONFIG_FOTA_COMBINED_IMAGE_SUPPORT} \
+    -DFOTA_SCRIPT_DIR=\"/wigwag/mbed\" \
+    -DFOTA_INSTALL_MAIN_SCRIPT=\"deploy_ostree_delta_update.sh\" \
+    -DBOOT_CAPSULE_UPDATE_DIR=\"/boot/efi/EFI/UpdateCapsule\" \
+    -DBOOT_CAPSULE_UPDATE_FILENAME=\"u-boot-caps.bin\" \
     -DDEVELOPER_MODE=${MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE} \
     -DFACTORY_MODE=${MBED_EDGE_CORE_CONFIG_FACTORY_MODE} \
     -DBYOC_MODE=${MBED_EDGE_CORE_CONFIG_BYOC_MODE} \
@@ -80,7 +84,7 @@ SYSTEMD_SERVICE_${PN} = "edge-core.service"
 
 do_configure_prepend() {
     cd ${S}
-    
+
     [ -f "${WORKDIR}/mbed_cloud_dev_credentials.c" ] && {
         mv "${WORKDIR}/mbed_cloud_dev_credentials.c" config/
     }
@@ -90,6 +94,7 @@ do_configure_prepend() {
 
     export HTTP_PROXY=${HTTP_PROXY}
     export HTTPS_PROXY=${HTTPS_PROXY}
+    cd ${B}
 
 }
 
@@ -104,12 +109,9 @@ do_compile_prepend() {
             cp ${PKG_CONFIG_SYSROOT_DIR}/usr/lib/libparsec_se_driver.a ${S}/lib/pal-platform/Middleware/parsec_se_driver/parsec_se_driver/target/release/
         fi
     fi
-
 }
 
 do_install() {
-    install -d "${D}/etc/init.d/"
-    install -m 755 "${WORKDIR}/edge-core.init" "${D}/etc/init.d/${INITSCRIPT_NAME}"
 
     install -d "${D}${systemd_system_unitdir}"
 
@@ -123,10 +125,6 @@ do_install() {
 
     install -d "${D}/wigwag/mbed"
     install "${WORKDIR}/build/bin/edge-core" "${D}/wigwag/mbed"
-
-    install -d "${D}${sysconfdir}/logrotate.d/"
-    install -m 644 "${WORKDIR}/edge-core.logrotate" "${D}${sysconfdir}/logrotate.d"
-
 
     install -d "${D}/etc/tmpfiles.d"
     echo "d /var/rootdirs/userdata 0755 root root -" >> "${D}/etc/tmpfiles.d/userdata-tmpfiles.conf"

@@ -20,12 +20,9 @@ SRC_URI += "file://target.cmake \
             file://target-default.cmake \
             file://sotp_fs_mx8mm_yocto.h \
             file://deploy_ostree_delta_update.sh \
-            file://0006-fota-callback.patch \
             file://0001-fix_psa_storage_location.patch \
             file://pal_plat_mx8mm.c \
             file://0008-ordered-reboot.patch "
-
-SCRIPT_DIR = "${WORKDIR}/git/lib/mbed-cloud-client/update-client-hub/modules/pal-linux/scripts"
 
 do_configure_prepend() {
     mkdir -p ${S}/lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_mx8mm
