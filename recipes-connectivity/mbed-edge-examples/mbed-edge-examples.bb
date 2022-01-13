@@ -8,7 +8,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRCREV = "0.16.0"
 
-SRC_URI = "git://github.com/PelionIoT/mbed-edge-examples.git \
+SRC_URI = "git://git@github.com/PelionIoT/mbed-edge-examples.git;protocol=https \
            file://pt-example \
            file://blept-example \
            file://blept-devices.json \
