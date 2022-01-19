@@ -10,7 +10,7 @@ SRCREV = "0.19.1"
 
 RM_WORK_EXCLUDE += "${PN}"
 
-SRC_URI = "gitsm://github.com/PelionIoT/mbed-edge.git \
+SRC_URI = "gitsm://git@github.com/PelionIoT/mbed-edge.git;protocol=https \
            file://toolchain.cmake \
            file://mbed_cloud_client_user_config.h \
            file://0001-disable-Doxygen.patch \
