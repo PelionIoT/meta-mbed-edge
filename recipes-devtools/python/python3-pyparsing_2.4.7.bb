@@ -11,6 +11,6 @@ SRC_URI[sha256sum] = "c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc32
 
 S = "${WORKDIR}/pyparsing-2.4.7"
 
-RDEPENDS_${PN} = ""
+RDEPENDS:${PN} = ""
 
 inherit setuptools3

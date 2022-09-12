@@ -11,6 +11,6 @@ SRC_URI[sha256sum] = "91ed4479754ef21744d8056f8d6c2d269ae7832a90c1e1d4b1128ab0fa
 
 S = "${WORKDIR}/pyclibrary-0.1.7"
 
-RDEPENDS_${PN} = "python3-future python3-pyparsing"
+RDEPENDS:${PN} = "python3-future python3-pyparsing"
 
 inherit setuptools3

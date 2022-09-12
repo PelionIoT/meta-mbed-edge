@@ -7,7 +7,7 @@ inherit cargo
 SRC_URI = "git://github.com/parallaxsecond/parsec-se-driver.git;protocol=https;branch=main \
            git://github.com/ARMmbed/mbedtls.git;protocol=https;destsuffix=mbedtls;name=mbedtls;branch=archive/development_2.x"
 
-SRCREV_pn-${PN} = "${PV}"
+SRCREV:pn-${PN} = "${PV}"
 SRCREV_mbedtls = "mbedtls-2.27.0"
 
 S = "${WORKDIR}/git"
@@ -15,7 +15,7 @@ S_MBEDTLS = "${WORKDIR}/mbedtls"
 
 TOOLCHAIN = "clang"
 
-do_compile_prepend() {
+do_compile:prepend() {
     export MBEDTLS_INCLUDE_DIR="${S_MBEDTLS}/include"
 }
 

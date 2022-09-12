@@ -14,7 +14,7 @@ To add the Mbed Edge to your build, insert following line to your local.conf:
 
 The Mbed Edge CMake configuration can be injected with `MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS`
 environment variable. The content of the variable is the CMake configuration line
-to inject. Please note that the `MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS` needs to be listed in the `BB_ENV_EXTRAWHITE` environment, otherwise it will not have effect in the build.
+to inject. Please note that the `MBED_EDGE_CUSTOM_CMAKE_ARGUMENTS` needs to be listed in the `BB_ENV_PASSTHROUGH_ADDITIONS` environment, otherwise it will not have effect in the build.
 
 Please consult the [Mbed Edge](https://github.com/ARMmbed/mbed-edge) repository
 how to configure the Mbed Edge build and check the `recipes-connectivity/mbed-edge/files`-folder
@@ -25,7 +25,7 @@ needs to be enabled and the firmware for the bluetooth chip needs to be installe
 can be done by adding following lines to the local.conf:
 
 ```
-DISTRO_FEATURES_append = " bluetooth "
+DISTRO_FEATURES:append = " bluetooth "
 
 CORE_IMAGE_EXTRA_INSTALL += " linux-firmware-bcm43430 linux-firmware-bcm43430a1-hcd "
 ```

@@ -4,13 +4,13 @@ LICENSE="Apache-2.0"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
 # Patches for quilt goes to files directory
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRCREV = "0.19.1"
 
 RM_WORK_EXCLUDE += "${PN}"
 
-SRC_URI = "gitsm://git@github.com/PelionIoT/mbed-edge.git;protocol=https \
+SRC_URI = "gitsm://git@github.com/PelionIoT/mbed-edge.git;protocol=https;branch=master \
            file://toolchain.cmake \
            file://mbed_cloud_client_user_config.h \
            file://0001-disable-Doxygen.patch \
@@ -30,17 +30,17 @@ SRC_URI += "\
 DEPENDS = " libcap mosquitto mercurial-native curl python3-native python3-pip-native python3 python3-setuptools-native python3-setuptools-scm"
 DEPENDS += "${@ 'parsec-se-driver' if d.getVar('MBED_EDGE_CORE_CONFIG_PARSEC_TPM_SE_SUPPORT') == 'ON' else ' '}"
 
-RDEPENDS_${PN} = " procps bash tar bzip2 rng-tools glibc-utils"
-RDEPENDS_${PN} += "${@ 'edge-tool' if d.getVar('MBED_EDGE_CORE_CONFIG_BYOC_MODE') == 'ON' else ' '}"
+RDEPENDS:${PN} = " procps bash tar bzip2 rng-tools glibc-utils"
+RDEPENDS:${PN} += "${@ 'edge-tool' if d.getVar('MBED_EDGE_CORE_CONFIG_BYOC_MODE') == 'ON' else ' '}"
 
 # Installed packages
 PACKAGES = "${PN} ${PN}-dbg"
-FILES_${PN} += "/wigwag \
+FILES:${PN} += "/wigwag \
                 /wigwag/mbed \
                 /wigwag/mbed/edge-core \
                 /userdata"
 
-FILES_${PN}-dbg += "/wigwag/mbed/debug \
+FILES:${PN}-dbg += "/wigwag/mbed/debug \
                     /usr/src/debug/mbed-edge"
 
 wbindir= "/wigwag/system/bin"
@@ -80,9 +80,9 @@ INITSCRIPT_NAME = "mbed-edge-core"
 INITSCRIPT_PARAMS = "defaults 85 15"
 
 SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE_${PN} = "edge-core.service"
+SYSTEMD_SERVICE:${PN} = "edge-core.service"
 
-do_configure_prepend() {
+do_configure:prepend() {
     cd ${S}
 
     [ -f "${WORKDIR}/mbed_cloud_dev_credentials.c" ] && {
@@ -98,7 +98,7 @@ do_configure_prepend() {
 
 }
 
-do_compile_prepend() {
+do_compile:prepend() {
 
     if [ "${MBED_EDGE_CORE_CONFIG_PARSEC_TPM_SE_SUPPORT}" = "ON" ]; then
         if [ "${MBED_EDGE_CMAKE_BUILD_TYPE}" = "Debug" ]; then

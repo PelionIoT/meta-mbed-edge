@@ -4,11 +4,11 @@ LICENSE="Apache-2.0"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
 # Patches for quilt goes to files directory
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRCREV = "0.16.0"
 
-SRC_URI = "git://git@github.com/PelionIoT/mbed-edge-examples.git;protocol=https \
+SRC_URI = "git://git@github.com/PelionIoT/mbed-edge-examples.git;protocol=https;branch=master \
            file://pt-example \
            file://blept-example \
            file://blept-devices.json \
@@ -20,19 +20,19 @@ SRC_URI = "git://git@github.com/PelionIoT/mbed-edge-examples.git;protocol=https 
 
 # Installed packages
 PACKAGES = "${PN} ${PN}-dbg"
-FILES_${PN} += "/wigwag \
+FILES:${PN} += "/wigwag \
                 /wigwag/mbed \
                 /wigwag/mbed/pt-example \
                 /wigwag/mbed/blept-example \
                 /wigwag/mbed/blept-devices.json"
 
-FILES_${PN}-dbg += "/wigwag/mbed/.debug \
+FILES:${PN}-dbg += "/wigwag/mbed/.debug \
                     /usr/src/debug/mbed-edge-examples"
 
 S = "${WORKDIR}/git"
 
 DEPENDS = " libcap mosquitto glib-2.0 mercurial-native"
-RDEPENDS_${PN} = " procps bash bluez5 virtual/mbed-edge-core"
+RDEPENDS:${PN} = " procps bash bluez5 virtual/mbed-edge-core"
 
 EXTRA_OECMAKE += " \
     -DTARGET_DEVICE=yocto \
@@ -44,7 +44,7 @@ inherit cmake update-rc.d
 INITSCRIPT_NAME = "mept-ble"
 INITSCRIPT_PARAMS = "defaults 86 15"
 
-do_configure_prepend() {
+do_configure:prepend() {
     cd ${S}
     git submodule update --init --recursive
     cd ${B}
