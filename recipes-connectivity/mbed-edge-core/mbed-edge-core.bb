@@ -3,6 +3,9 @@ DESCRIPTION="mbed-edge-core"
 LICENSE="Apache-2.0"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 
+PROVIDES += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
+RPROVIDES_${PN} += " virtual/mbed-edge-core virtual/mbed-edge-core-dbg "
+
 # Patches for quilt goes to files directory
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
@@ -11,13 +14,18 @@ SRCREV = "0.20.0"
 RM_WORK_EXCLUDE += "${PN}"
 
 SRC_URI = "gitsm://git@github.com/PelionIoT/mbed-edge.git;protocol=https \
+           file://target.cmake \
+           file://sotp_fs_yocto.h \
+           file://pal_plat_yocto.c \
            file://toolchain.cmake \
            file://mbed_cloud_client_user_config.h \
+           file://deploy_ostree_delta_update.sh \
            file://0001-disable-Doxygen.patch \
            file://0001-parsec-se-driver-should-be-compiled-separately-in-Yo.patch \
            file://0002-fix-libevent-build-with-CMake-in-Yocto.patch \
            file://0001-Temporary-fix-for-trace-mutex-lock-issue.patch \
-          "
+           file://0001-fix_psa_storage_location.patch \
+           file://0008-ordered-reboot.patch "
 
 SRC_URI += "\
     ${@bb.utils.contains('MBED_EDGE_CORE_CONFIG_DEVELOPER_MODE','ON','file://mbed_cloud_dev_credentials.c','',d)} \
@@ -104,10 +112,13 @@ do_configure_prepend() {
         mv "${WORKDIR}/update_default_resources.c" config/
     }
 
+    mkdir -p lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_yocto
+    cp ${WORKDIR}/pal_plat_yocto.c \
+       lib/mbed-cloud-client/mbed-client-pal/Source/Port/Reference-Impl/OS_Specific/Linux/Board_Specific/TARGET_yocto/pal_plat_yocto.c
+
     export HTTP_PROXY=${HTTP_PROXY}
     export HTTPS_PROXY=${HTTPS_PROXY}
     cd ${B}
-
 }
 
 do_compile_prepend() {
@@ -141,4 +152,8 @@ do_install() {
     install -d "${D}/etc/tmpfiles.d"
     echo "d /var/rootdirs/userdata 0755 root root -" >> "${D}/etc/tmpfiles.d/userdata-tmpfiles.conf"
     ln -sf "/var/rootdirs/userdata" "${D}/userdata"
+
+    if [ "${MBED_EDGE_CORE_CONFIG_FOTA_ENABLE}" = "ON" ]; then
+        install -m 755 "${WORKDIR}/deploy_ostree_delta_update.sh" "${D}/wigwag/mbed"
+    fi
 }
